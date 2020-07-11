@@ -27,6 +27,12 @@ public class Prestamo {
 	@Id 
 	private Integer idPrestamo;
 	
+	@NotNull
+	private Integer idCliente;
+	
+	@NotNull
+	private Integer idEmpleado;
+	
 	@NotBlank
 	private String Fecha;
 	

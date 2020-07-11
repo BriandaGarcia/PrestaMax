@@ -1,5 +1,6 @@
 package mx.uam.tsis2020.prestamax.negocio;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,66 @@ public Cliente create(Cliente nuevoCliente) {
 		
 	}
 
-
-public Iterable <Cliente> retrieveAll() {
+   //recupera todos los clientes
+   public Iterable <Cliente> retrieveAll()
+   {
 	return clienteRepository.findAll();
-}
+   }
+   
+   //recupera cliente por id
+   public Cliente retieve(Integer idCliente)
+	{
+	  
+		Optional<Cliente>  clientefind =clienteRepository.findById(idCliente);
+		
+		if(clientefind.isPresent())
+		{
+			 return clientefind.get();
+		}else
+			return null;
+	}
+   
+   public Cliente updateCliente(Integer idCliente, Cliente actualizaCliente)
+	{
+		 Optional<Cliente>  clientefind =clienteRepository.findById(idCliente);
+		if(clientefind.isPresent())
+		{
+			Cliente cliente = new Cliente();
+		
+		    cliente.setApellidoPaterno(actualizaCliente.getApellidoPaterno());
+		    cliente.setApellidoMaterno(actualizaCliente.getApellidoMaterno());
+		    cliente.setNombre(actualizaCliente.getNombre());
+		    cliente.setINE(actualizaCliente.getINE());
+		    cliente.setDireccion(actualizaCliente.getDireccion());
+		    cliente.setTelefono(actualizaCliente.getTelefono());
+		    cliente.setSalario(actualizaCliente.getSalario());
+		    cliente.setStatus(actualizaCliente.getStatus());
+		    
+		    Cliente actualizadoCliente = clienteRepository.save(actualizaCliente);
+		
+		return actualizadoCliente;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+   public Double retieveSalary(Integer idCliente)
+	{
+	  
+		Optional<Cliente>  clientefind =clienteRepository.findById(idCliente);
+
+		
+		if(clientefind.isPresent())
+		{
+			log.info("regreso el salario "+ clientefind.get().getSalario());
+			 return clientefind.get().getSalario();
+			  
+		}else
+			return null;
+	}
+   
+  
 
 }

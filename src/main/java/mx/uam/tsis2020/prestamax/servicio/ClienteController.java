@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +31,6 @@ public class ClienteController {
 	@PostMapping(path = "/clientes", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity <?> create(@RequestBody @Valid Cliente nuevoCliente) { // Validaciones
 				
-		//log.info("Recibí llamada a create con "+nuevoAlumno); // Logging
 		
 		Cliente cliente = clienteService.create(nuevoCliente);
 		
@@ -51,11 +52,53 @@ public class ClienteController {
     @GetMapping(path = "/cleintes", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity <?> retrieveAll() {
 		
-		Iterable <Cliente> result = clienteService.retrieveAll();
+		Iterable <Cliente> clientes = clienteService.retrieveAll();
 		
-		return ResponseEntity.status(HttpStatus.OK).body(result); 
+		return ResponseEntity.status(HttpStatus.OK).body(clientes); 
 		
 	}
+	
+	@ApiOperation
+	(//documentacion del api
+	  value = "Recupera un Cliente por id",
+	  notes="Recupera un cliente por medio de un id existente para ver su información"
+	)
+	@GetMapping(path = "/clientes/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity <?> retrieve(@PathVariable("idCliente") Integer idCliente) {
+		
+		
+		Cliente cliente = clienteService.retieve(idCliente);
+		
+		if(cliente != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(cliente);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente con id: "+idCliente +" no existe");
+		}
+		
+		
+	}
+	
+	
+	@ApiOperation
+	(//documentacion del api
+	  value = "Actualiza Cliente",
+	  notes="Actualiza los datos del Cliente por medio de su id (idCliente)"
+	)
+	@PutMapping(path = "clientes/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity <?> update(@PathVariable("idCliente") Integer idCliente,@RequestBody Cliente actualizaCliente)
+	{
+ 		Cliente cliente= clienteService.updateCliente(idCliente, actualizaCliente);
+ 		if(cliente!=null)
+ 		{
+ 	      return ResponseEntity.status(HttpStatus.OK).body(cliente);
+ 		}
+ 		else
+ 		{
+ 			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+ 		}
+	}
+	
+	
 	
 	
 

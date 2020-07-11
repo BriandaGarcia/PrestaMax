@@ -23,7 +23,7 @@ public class Empleado {
 	@NotNull
 	@ApiModelProperty(notes="id del empleado", required=true)
 	@Id 
-	private Integer idCliente;
+	private Integer idEmpleado;
 	
 	@NotBlank
 	private String Nombre;
