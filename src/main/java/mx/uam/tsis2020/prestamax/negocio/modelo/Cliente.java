@@ -1,6 +1,7 @@
 package mx.uam.tsis2020.prestamax.negocio.modelo;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,33 +22,39 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Cliente {
 	
-	@NotNull
-	@ApiModelProperty(notes="id del cliente", required=true)
 	@Id //indica la llave primaria
+	@GeneratedValue //AUTOGENERA UN ID UNICO
 	private Integer idCliente;
 	
 	@NotBlank
-	private String Nombre;
+	@ApiModelProperty(notes="Nombre del cliente", required=true)
+	private String nombre;
 	
 	@NotBlank
-	private String ApellidoPaterno;
+	@ApiModelProperty(notes="Apellido paterno del cliente", required=true)
+	private String apellidoPaterno;
 	
 	@NotBlank
-	private String ApellidoMaterno;
+	@ApiModelProperty(notes="Apellido materno del cliente", required=true)
+	private String apellidoMaterno;
 	
 	@NotNull
-	private Double Salario;
+	@ApiModelProperty(notes="Salario del cliente", required=true)
+	private Double salario;
 	
 	@NotBlank
-	private String Telefono;
+	@ApiModelProperty(notes="Telefono del cliente", required=true)
+	private String telefono;
 	
 	@NotBlank
-	private String INE;
+	@ApiModelProperty(notes="Clave de INE del cliente", required=true)
+	private String ine;
 	
 	@NotBlank
-	private String Direccion;
+	@ApiModelProperty(notes="Direccion del cliente", required=true)
+	private String direccion;
 	
 	@NotBlank
-	private String Status;
-
+	@ApiModelProperty(notes="status del cliente", required=true)
+	private String status;
 }

@@ -1,8 +1,7 @@
 package mx.uam.tsis2020.prestamax.negocio.modelo;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,38 +21,39 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Prestamo {
 	
-	@NotNull
-	@ApiModelProperty(notes="id del prestamo", required=true)
 	@Id 
+	@GeneratedValue //AUTOGENERA UN ID UNICO
 	private Integer idPrestamo;
 	
 	@NotNull
+	@ApiModelProperty(notes="id del cliente", required=true)
 	private Integer idCliente;
 	
 	@NotNull
+	@ApiModelProperty(notes="id del empleado", required=true)
 	private Integer idEmpleado;
 	
 	@NotBlank
-	private String Fecha;
+	@ApiModelProperty(notes="fecha del prestamo", required=true)
+	private String fecha;
 	
 	@NotBlank
-	private String FechaLimite;
+	@ApiModelProperty(notes="fecha limite para pagar el prestamo", required=true)
+	private String fechaLimite;
 	
 	@NotNull
-	private Double Cantidad;
+	@ApiModelProperty(notes="monto del prestamo", required=true)
+	private Double cantidad;
 	
 	@NotNull
-	private Double TazadeInteres;
-	
-	@NotNull
-	private Double Penalizacion;
+	@ApiModelProperty(notes="tasa de interes del prestamo", required=true)
+	private Double tasaInteres;
 	
 	@NotBlank
-	private String DiadePago;
+	@ApiModelProperty(notes="dia de cada pago del prestamo", required=true)
+	private String diaPago;
 	
 	@NotNull
-	private Double CantidadePago;
-	
-	
-
+	@ApiModelProperty(notes="cantidad de cada pago del prestamo", required=true)
+	private Double cantidaPago;	
 }

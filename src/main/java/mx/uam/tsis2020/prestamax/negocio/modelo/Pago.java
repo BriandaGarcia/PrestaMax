@@ -1,6 +1,7 @@
 package mx.uam.tsis2020.prestamax.negocio.modelo;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,15 +21,20 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Pago {
 	
-	@NotNull
-	@ApiModelProperty(notes="id del pago", required=true)
-	@Id 
+	@Id
+	@GeneratedValue //AUTOGENERA UN ID UNICO
 	private Integer idPago;
 	
+	@NotNull
+	@ApiModelProperty(notes="id del prestamo del cual se está realizando el pago", required=true)
+	private Integer idPrestamo;
+	
 	@NotBlank
-	private String Fecha;
+	@ApiModelProperty(notes="fecha en que se está realizando el pago", required=true)
+	private String fecha;
 	
 	@NotNull
+	@ApiModelProperty(notes="cantidad del pago", required=true)
 	private Double cantidad;
 
 }
