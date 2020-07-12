@@ -84,16 +84,16 @@ public class PrestamoController {
 			notes = "Permite actualizar la información de un prestamo, identificandolo por su ID, el cual no debe ser modificado"
 			)
 	@PutMapping(path = "/prestamos/{idPrestamo}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> update(@PathVariable("idPrestamo") @Valid Integer idPrestamo, @RequestBody @Valid Prestamo PrestamoActualizado) {
+	public ResponseEntity<?> update(@PathVariable("idPrestamo") @Valid Integer idPrestamo, @RequestBody @Valid Prestamo prestamoActualizado) {
 		
 		log.info("Actualizando al prestamo con ID "+idPrestamo);
 			
 		//MANDA ACTUALIZAR EL PRESTAMO
-		PrestamoActualizado = prestamoService.update(idPrestamo,PrestamoActualizado);
+		prestamoActualizado = prestamoService.update(idPrestamo,prestamoActualizado);
 			
 		//SI EL OBJETO DEVUELTO NO ES NULL, EL PRESTAMO SE ACTUALIZÓ CORRECTAMENTE
-		if(PrestamoActualizado != null) {
-			return ResponseEntity.status(HttpStatus.OK).body(PrestamoActualizado);
+		if(prestamoActualizado != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(prestamoActualizado);
 		} 
 		//SI EL OBJETO DEVUELTO ES NULL, EL PRESTAMO QUE SE INTENTA ACTUALIZAR NO EXISTE O LA INFORMACIÓN PROPORCIONADA ES ERRONEA
 		else {
@@ -110,11 +110,11 @@ public class PrestamoController {
 		
 		log.info("Borrando al prestamo con ID "+idPrestamo);
 				
-		//SI RECIBE TRUE EL ALUMNO SE ELIMINÓ CORRECTAMENTE
+		//SI RECIBE TRUE EL PRESTAMO SE ELIMINÓ CORRECTAMENTE
 		if(prestamoService.delete(idPrestamo)) {
 			return ResponseEntity.status(HttpStatus.OK).body("Prestamo con ID "+idPrestamo+" eliminado correctamente");
 		} 
-		//SI RECIBE FALSE, EL ALUMNO NO EXISTE, POR LO TANTO NO PUEDE SER ELIMINADO
+		//SI RECIBE FALSE, EL PRESTAMO NO EXISTE, POR LO TANTO NO PUEDE SER ELIMINADO
 		else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Prestamo con ID "+idPrestamo+" no encontrado. No se ha podido eliminar");
 		}

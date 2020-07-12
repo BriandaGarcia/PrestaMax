@@ -15,7 +15,7 @@ import mx.uam.tsis2020.prestamax.negocio.modelo.Empleado;
 import mx.uam.tsis2020.prestamax.negocio.modelo.Prestamo;
 
 /**
- * 
+ * Clase que contiene la logica de negocio del manejo de prestamos
  * @author Brianda Garcia
  *
  */
@@ -36,9 +36,9 @@ public class PrestamoService {
 	private ClienteService clienteService;
 	
 	/**
-	 * 
-	 * @param nuevoPrestamo
-	 * @return
+	 * Permite crear nuevos prestamos
+	 * @param nuevoPrestamo El prestamo que se desea almacenar en la BD. Es de tipo Prestamo
+	 * @return El prestamo que se acaba de crear si fue exitosa la creacion, null de lo contrario
 	 */
 	public Prestamo create(Prestamo nuevoPrestamo) {
 	    

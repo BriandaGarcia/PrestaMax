@@ -37,10 +37,6 @@ public class Prestamo {
 	@ApiModelProperty(notes="fecha del prestamo", required=true)
 	private String fecha;
 	
-	@NotBlank
-	@ApiModelProperty(notes="fecha limite para pagar el prestamo", required=true)
-	private String fechaLimite;
-	
 	@NotNull
 	@ApiModelProperty(notes="monto del prestamo", required=true)
 	private Double cantidad;
@@ -49,11 +45,19 @@ public class Prestamo {
 	@ApiModelProperty(notes="tasa de interes del prestamo", required=true)
 	private Double tasaInteres;
 	
-	@NotBlank
+	@NotNull
 	@ApiModelProperty(notes="dia de cada pago del prestamo", required=true)
-	private String diaPago;
+	private Integer diaPago;
 	
 	@NotNull
 	@ApiModelProperty(notes="cantidad de cada pago del prestamo", required=true)
 	private Double cantidaPago;	
+	
+	@NotNull
+	@ApiModelProperty(notes="Penalizacion al dia por pago tardio", required=true)
+	private Integer penalizacionDia;
+	
+	@NotNull
+	@ApiModelProperty(notes="Total del cargo por penalizacion acumulado", required=true)
+	private Integer recargos;
 }
