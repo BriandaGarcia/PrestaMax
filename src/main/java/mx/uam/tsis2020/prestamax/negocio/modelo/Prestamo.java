@@ -46,12 +46,16 @@ public class Prestamo {
 	private Double tasaInteres;
 	
 	@NotNull
+	@ApiModelProperty(notes="numero de pagos del prestamo", required=true)
+	private Integer numeroPagos;
+	
+	@NotNull
 	@ApiModelProperty(notes="dia de cada pago del prestamo", required=true)
 	private Integer diaPago;
 	
 	@NotNull
 	@ApiModelProperty(notes="cantidad de cada pago del prestamo", required=true)
-	private Double cantidaPago;	
+	private Double cantidadPago;	
 	
 	@NotNull
 	@ApiModelProperty(notes="Penalizacion al dia por pago tardio", required=true)
