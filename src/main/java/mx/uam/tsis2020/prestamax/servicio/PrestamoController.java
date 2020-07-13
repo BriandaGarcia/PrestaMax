@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import mx.uam.tsis2020.prestamax.negocio.ClienteService;
 import mx.uam.tsis2020.prestamax.negocio.PrestamoService;
+import mx.uam.tsis2020.prestamax.negocio.modelo.Cliente;
 import mx.uam.tsis2020.prestamax.negocio.modelo.Prestamo;
 
 /**
@@ -33,6 +35,9 @@ public class PrestamoController {
 	@Autowired
 	private PrestamoService prestamoService;
 	
+	@Autowired
+	private ClienteService clienteService;
+	
 	@ApiOperation(
 			value = "Crear prestamo",
 			notes = "Permite crear un nuevo prestamo. Persiste en la BD"
@@ -41,12 +46,49 @@ public class PrestamoController {
 	public ResponseEntity <?> create(@RequestBody @Valid Prestamo nuevoPrestamo) {
 		
 		Prestamo prestamo = prestamoService.create(nuevoPrestamo);
-		log.info("prestamo tiene "+prestamo);
+		log.info("nuevo prestamo  "+nuevoPrestamo);
 		
 		if(prestamo != null) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(prestamo); 
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verifique la información"); 
+			if(prestamoService.validaExisteCliente(nuevoPrestamo.getIdCliente())) {
+				if(prestamoService.validaExisteEmpleado(nuevoPrestamo.getIdEmpleado())) {
+					Cliente cliente= clienteService.retrieve(nuevoPrestamo.getIdCliente());	
+					if(prestamoService.validaStatusCliente(cliente.getStatus())) {
+						if(prestamoService.validaCantidad(cliente.getSalario(), nuevoPrestamo.getCantidad())) {
+							if(prestamoService.validaTasaInteres(nuevoPrestamo.getTasaInteres())) {
+								if(prestamoService.validaNumeroPagos(nuevoPrestamo.getNumeroPagos())) {
+									if(prestamoService.validaDiaPago(nuevoPrestamo.getDiaPago())) {
+										if(prestamoService.validaCantidadPago(nuevoPrestamo)) {
+											if(prestamoService.validaPenalizacion(nuevoPrestamo.getCantidad(), nuevoPrestamo.getPenalizacionDia())) {
+												return ResponseEntity.status(HttpStatus.CREATED).body(prestamo);
+											} else {
+												return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Penalizacion asignada incorrecta. Verifique la informacion");
+											}
+										} else {
+											return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cantidad de cada pago incorrecta. Verifique la informacion");
+										}
+									} else {
+										return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Dia de pago debe ser el 1. Verifique la informacion");
+									}
+								} else {
+									return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Numero de pagos incorrecto. Verifique la informacion");
+								}
+							} else {
+								return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tasa de interes fuera de los limites. Verifique la informacion");
+							}
+						} else {
+							return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cantidad no apta para prestamo. Verifique la informacion");
+						}
+					} else {
+						return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cliente no apto para otro prestamo. Verifique la informacion");
+					}
+				} else {
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Empleado no existente. Verifique la informacion");
+				}
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no existente. Verifique la informacion");
+			} 
 		}
 	}
 	
@@ -89,15 +131,56 @@ public class PrestamoController {
 		log.info("Actualizando al prestamo con ID "+idPrestamo);
 			
 		//MANDA ACTUALIZAR EL PRESTAMO
-		prestamoActualizado = prestamoService.update(idPrestamo,prestamoActualizado);
+		Prestamo prestamo = prestamoService.update(idPrestamo,prestamoActualizado);
 			
 		//SI EL OBJETO DEVUELTO NO ES NULL, EL PRESTAMO SE ACTUALIZÓ CORRECTAMENTE
-		if(prestamoActualizado != null) {
+		if(prestamo != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(prestamoActualizado);
 		} 
 		//SI EL OBJETO DEVUELTO ES NULL, EL PRESTAMO QUE SE INTENTA ACTUALIZAR NO EXISTE O LA INFORMACIÓN PROPORCIONADA ES ERRONEA
 		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Prestamo con ID "+idPrestamo+" no encontrado. Verifique la información");
+			if(prestamoService.validaExistePrestamo(idPrestamo)) {
+				if(prestamoService.validaExisteCliente(prestamoActualizado.getIdCliente())) {
+					if(prestamoService.validaExisteEmpleado(prestamoActualizado.getIdEmpleado())) {
+						Cliente cliente= clienteService.retrieve(prestamoActualizado.getIdCliente());	
+						if(prestamoService.validaStatusCliente(cliente.getStatus())) {
+							if(prestamoService.validaCantidad(cliente.getSalario(), prestamoActualizado.getCantidad())) {
+								if(prestamoService.validaTasaInteres(prestamoActualizado.getTasaInteres())) {
+									if(prestamoService.validaNumeroPagos(prestamoActualizado.getNumeroPagos())) {
+										if(prestamoService.validaDiaPago(prestamoActualizado.getDiaPago())) {
+											if(prestamoService.validaCantidadPago(prestamoActualizado)) {
+												if(prestamoService.validaPenalizacion(prestamoActualizado.getCantidad(), prestamoActualizado.getPenalizacionDia())) {
+													return ResponseEntity.status(HttpStatus.CREATED).body(prestamoActualizado);
+												} else {
+													return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Penalizacion asignada incorrecta. Verifique la informacion");
+												}
+											} else {
+												return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cantidad de cada pago incorrecta. Verifique la informacion");
+											}
+										} else {
+											return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Dia de pago debe ser el 1. Verifique la informacion");
+										}
+									} else {
+										return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Numero de pagos incorrecto. Verifique la informacion");
+									}
+								} else {
+									return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tasa de interes fuera de los limites. Verifique la informacion");
+								}
+							} else {
+								return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cantidad no apta para prestamo. Verifique la informacion");
+							}
+						} else {
+							return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cliente no apto para otro prestamo. Verifique la informacion");
+						}
+					} else {
+						return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Empleado no existente. Verifique la informacion");
+					}
+				} else {
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no existente. Verifique la informacion");
+				}
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Prestamo no existente. Verifique la informacion");
+			}
 		}
 	}
 	

@@ -67,7 +67,7 @@ public class ClienteController {
 	public ResponseEntity <?> retrieve(@PathVariable("idCliente") Integer idCliente) {
 		
 		
-		Cliente cliente = clienteService.retieve(idCliente);
+		Cliente cliente = clienteService.retrieve(idCliente);
 		
 		if(cliente != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(cliente);

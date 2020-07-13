@@ -1,5 +1,6 @@
 package mx.uam.tsis2020.prestamax.negocio.modelo;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,7 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Entity//indica que hay que persistir en BD
-@EqualsAndHashCode
 public class Cliente {
 	
 	@Id //indica la llave primaria
