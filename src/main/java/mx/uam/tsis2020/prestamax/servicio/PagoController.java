@@ -35,6 +35,9 @@ public class PagoController {
 	@Autowired
 	private PagoService pagoService;
 	
+	@Autowired
+	private PrestamoService prestamoService;
+	
 	@ApiOperation(
 			value = "Crear pago",
 			notes = "Permite crear un nuevo pago. Persiste en la BD"
@@ -48,7 +51,27 @@ public class PagoController {
 		if(pago != null) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(pago); 
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verifique la información"); 
+			if(pagoService.validaExistePrestamo(nuevoPago.getIdPrestamo())) {
+				log.info("Pase validacion de prestamo existente");
+				if(pagoService.validaExisteEmpleado(nuevoPago.getIdEmpleado())) {
+					log.info("Pase validacion de empleado existente");
+					if(pagoService.validaDia(nuevoPago.getDia())) {
+						log.info("Pase validaciones de dia de pago");
+						Optional<Prestamo> prestamo = prestamoService.retrieve(nuevoPago.getIdPrestamo());
+						if(pagoService.validaCantidad(nuevoPago.getCantidad(), prestamo.get().getCantidadPago())) {
+							return ResponseEntity.status(HttpStatus.CREATED).body(pago);
+						} else {
+							return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("La cantidad del pago no corresponde. Verifique la informacion");
+						}
+					} else {
+						return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El dia no es correcto. Verifique la informacion");
+					}
+				} else {
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Empleado no existente. Verifique la informacion");
+				}
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Prestamo no existente. Verifique la informacion");
+			} 
 		}
 	}
 	
@@ -91,15 +114,39 @@ public class PagoController {
 		log.info("Actualizando al pago con ID "+idPago);
 			
 		//MANDA ACTUALIZAR EL PAGO
-		pagoActualizado = pagoService.update(idPago,pagoActualizado);
+		Pago pago = pagoService.update(idPago,pagoActualizado);
 			
 		//SI EL OBJETO DEVUELTO NO ES NULL, EL PAGO SE ACTUALIZÓ CORRECTAMENTE
 		if(pagoActualizado != null) {
-			return ResponseEntity.status(HttpStatus.OK).body(pagoActualizado);
+			return ResponseEntity.status(HttpStatus.OK).body(pago);
 		} 
 		//SI EL OBJETO DEVUELTO ES NULL, EL PAGO QUE SE INTENTA ACTUALIZAR NO EXISTE O LA INFORMACIÓN PROPORCIONADA ES ERRONEA
 		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pago con ID "+idPago+" no encontrado. Verifique la información");
+			if(pagoService.validaExistePago(idPago)){
+				if(pagoService.validaExistePrestamo(pago.getIdPrestamo())) {
+					log.info("Pase validacion de prestamo existente");
+					if(pagoService.validaExisteEmpleado(pago.getIdEmpleado())) {
+						log.info("Pase validacion de empleado existente");
+						if(pagoService.validaDia(pago.getDia())) {
+							log.info("Pase validaciones de dia de pago");
+							Optional<Prestamo> prestamo = prestamoService.retrieve(pago.getIdPrestamo());
+							if(pagoService.validaCantidad(pago.getCantidad(), prestamo.get().getCantidadPago())) {
+								return ResponseEntity.status(HttpStatus.CREATED).body(pago);
+							} else {
+								return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("La cantidad del pago no corresponde. Verifique la informacion");
+							}
+						} else {
+							return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El dia no es correcto. Verifique la informacion");
+						}
+					} else {
+						return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Empleado no existente. Verifique la informacion");
+					}
+				} else {
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Prestamo no existente. Verifique la informacion");
+				}
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pago no existente. Verifique la informacion");
+			}
 		}
 	}
 	
