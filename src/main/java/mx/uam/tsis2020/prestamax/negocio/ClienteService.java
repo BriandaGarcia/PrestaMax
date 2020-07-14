@@ -1,6 +1,5 @@
 package mx.uam.tsis2020.prestamax.negocio;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +16,15 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-public Cliente create(Cliente nuevoCliente) {
-		
-		// Regla de negocio: no se puede dar de alta un cliente con el mismo id
-		Optional <Cliente>  cliente= clienteRepository.findById(nuevoCliente.getIdCliente());
-		
-		
-		if(!cliente.isPresent()) {
-
-			log.info("Voy a guardar al cliente "+nuevoCliente);
+	public Cliente create(Cliente nuevoCliente) {
+	
+		log.info("Voy a guardar al cliente "+nuevoCliente);
 			
-			Cliente returncliente =  clienteRepository.save(nuevoCliente);
+		nuevoCliente =  clienteRepository.save(nuevoCliente);
 			
-			log.info("Voy a regresar al cliente "+returncliente);
+		log.info("Voy a regresar al cliente "+nuevoCliente);
 			
-			return returncliente;
-			
-		} else {
-			
-			return null;
-			
-		}
-		
+		return nuevoCliente;
 	}
 
    //recupera todos los clientes
@@ -48,7 +34,7 @@ public Cliente create(Cliente nuevoCliente) {
    }
    
    //recupera cliente por id
-   public Cliente retieve(Integer idCliente)
+   public Cliente retrieve(Integer idCliente)
 	{
 	  
 		Optional<Cliente>  clientefind =clienteRepository.findById(idCliente);
@@ -70,7 +56,7 @@ public Cliente create(Cliente nuevoCliente) {
 		    cliente.setApellidoPaterno(actualizaCliente.getApellidoPaterno());
 		    cliente.setApellidoMaterno(actualizaCliente.getApellidoMaterno());
 		    cliente.setNombre(actualizaCliente.getNombre());
-		    cliente.setINE(actualizaCliente.getINE());
+		    cliente.setIne(actualizaCliente.getIne());
 		    cliente.setDireccion(actualizaCliente.getDireccion());
 		    cliente.setTelefono(actualizaCliente.getTelefono());
 		    cliente.setSalario(actualizaCliente.getSalario());
@@ -86,7 +72,7 @@ public Cliente create(Cliente nuevoCliente) {
 		}
 	}
 
-   public Double retieveSalary(Integer idCliente)
+   public Double retrieveSalary(Integer idCliente)
 	{
 	  
 		Optional<Cliente>  clientefind =clienteRepository.findById(idCliente);

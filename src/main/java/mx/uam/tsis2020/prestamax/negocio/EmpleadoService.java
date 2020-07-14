@@ -18,28 +18,15 @@ public class EmpleadoService {
 	@Autowired
 	private EmpleadoRepository  empleadoRepository;
 	
-public Empleado create(Empleado nuevoEmpleado) {
+	public Empleado create(Empleado nuevoEmpleado) {
 		
-		// Regla de negocio: no se puede dar de alta un empleado con el mismo id
-		Optional <Empleado>  empleado= empleadoRepository.findById(nuevoEmpleado.getIdEmpleado());
+		log.info("Voy a guardar al empleado "+nuevoEmpleado);
+			
+		Empleado returnempleado =  empleadoRepository.save(nuevoEmpleado);
 		
-		
-		if(!empleado.isPresent()) {
-
-			log.info("Voy a guardar al empleado "+nuevoEmpleado);
+		log.info("Voy a regresar al cliente "+returnempleado);
 			
-			Empleado returnempleado =  empleadoRepository.save(nuevoEmpleado);
-			
-			log.info("Voy a regresar al cliente "+returnempleado);
-			
-			return returnempleado;
-			
-		} else {
-			
-			return null;
-			
-		}
-		
+		return returnempleado;
 	}
 
 public Iterable <Empleado> retrieveAll()

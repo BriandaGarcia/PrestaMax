@@ -26,7 +26,7 @@ public class ClienteController {
 	@ApiOperation
 	(//documentacion del api
 	  value = "Crear un nuevo Cliente",
-	  notes="Permite crear un nuevo Cleinte, cada cliente debe llevar un identidicador unico, de lo contrario no se puede dar crear"
+	  notes="Permite crear un nuevo Cliente, cada cliente debe llevar un identidicador unico, de lo contrario no se puede dar crear"
 	)	
 	@PostMapping(path = "/clientes", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity <?> create(@RequestBody @Valid Cliente nuevoCliente) { // Validaciones
@@ -67,7 +67,7 @@ public class ClienteController {
 	public ResponseEntity <?> retrieve(@PathVariable("idCliente") Integer idCliente) {
 		
 		
-		Cliente cliente = clienteService.retieve(idCliente);
+		Cliente cliente = clienteService.retrieve(idCliente);
 		
 		if(cliente != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(cliente);
