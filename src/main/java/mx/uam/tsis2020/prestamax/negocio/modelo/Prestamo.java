@@ -65,4 +65,5 @@ public class Prestamo {
 	@ApiModelProperty(notes="Total del cargo por penalizacion acumulado", required=true)
 	private Integer recargos;
 
+
 }

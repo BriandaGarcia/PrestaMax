@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	rel="stylesheet">
+</head>
+<body>
+	<!-- Encabezado -->
+	<header th:insert="fragments/menu :: menu-principal"></header>
+	<!-- Encabezado -->
+
+
+	<!-- Page content -->
+	<hr>
+	<div class="container">
+
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Lista de Clientes</strong>
+			</h4>
+			<div class="card-body">
+				<a class="btn btn-secondary" th:href="@{/cliente/crear}"
+					title="Crear nuevo prestamo" role="button"><i
+					class="fas fa-file" aria-hidden="true"></i>Nuevo</a> <a
+					class="btn btn-info" th:href="@{/cliente}">Regresar</a>
+				<hr>
+				<div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+				<div th:if="${error != null}" class='alert alert-danger' th:text="${msg}" role='alert'></div>
+				<table class="table table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">ID Cliente</th>
+							<th scope="col">Nombre Cliente</th>
+							<th scope="col">Salario</th>
+							<th scope="col">Telefono</th>
+							<th scope="col">Opciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="cliente: ${clientes}">
+							<td th:text="${cliente.idCliente}"></td>
+							<td th:text="${cliente.nombre} + ' ' + ${cliente.apellidoPaterno} + ' ' + ${cliente.apellidoMaterno}"></td>
+							<td th:text="${cliente.salario}"></td>
+							<td th:text="${cliente.telefono}"></td>
+							<td><a th:href="@{/cliente/crear}"
+								class="btn btn-success btn-sm" role="button"
+								title="Editar el registro."><i class="fas fa-pencil-alt"
+									aria-hidden="true"></i></a> <a
+								th:href="@{/cliente/eliminar/} + ${cliente.idCliente}"
+								onclick="return confirm('¿Estas seguro?')"
+								class="btn btn-danger btn-sm" role="button"
+								title="Eliminar el registro."><i class="fas fa-trash"
+									aria-hidden="true"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	<!-- Page content -->
+
+
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+
+</body>
+</html>

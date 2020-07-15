@@ -19,6 +19,7 @@ import mx.uam.tsis2020.prestamax.negocio.modelo.Empleado;
 @Slf4j
 public class EmpleadoService {
 	
+	
 	@Autowired
 	private EmpleadoRepository  empleadoRepository;
 	

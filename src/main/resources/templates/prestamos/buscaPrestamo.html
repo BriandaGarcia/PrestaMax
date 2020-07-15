@@ -7,6 +7,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 	<!-- Encabezado -->
@@ -18,19 +19,79 @@
 	<div class="jumbotron">
 		<div class="container">
 			<h3>Encuentra el pr&eacute;stamo mediante el ID</h3>
-			Aseg&uacute;rate de colocar correctamente el ID
-			<form class="form-inline">
-				<input type="text" class="form-control mb-3"
-					id="buscaPrestamo" placeholder="Escriba una busqueda">&nbsp;
-				<button type="submit" class="btn btn-secondary mb-3">Buscar</button>
-			</form>
+			Aseg&uacute;rate de colocar correctamente el ID 
+			<input type="text" class="form-control mb-3" id="idPrestamo" placeholder="Escriba ID del prestamo">&nbsp; 
+			<a class="btn btn-primary" role="button" title="Buscar" id="get">Buscar</a>
+			<a class="btn btn-secondary" th:href="@{/prestamo}" role="button" title="Regresar">Regresar</a>
 		</div>
 	</div>
+	
+	<hr>
+	<div class="container" id="detallePrestamo" style="display: none">
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Detalles del Pr&eacute;stamo:</strong>
+			</h4>
+			<div class="card-body">
+				<h5 class="card-title">
+					<strong>ID Pr&eacute;stamo: </strong> <span id="id"></span>
+				</h5>
+				<h6 class="card-title">
+					<strong>Fecha de creacion: </strong> <span id="fecha"></span>
+				</h6>
+				<h6 class="card-title">
+					<strong>ID cliente: </strong><span id="idCliente"></span> 
+				</h6>	
+				<h6 class="card-title">
+					<strong>Cantidad del pr&eacute;stamo: </strong> <span id="cantidad"></span>
+					<strong>Tasa de inter&eacute;s: </strong> <span id="tasaInteres"></span>
+					<strong>Penalizaci&oacute;n por d&iacute;a: </strong> <span id="penalizacionDia"></span>
+					<strong>D&iacute;a de pago: </strong> <span id="diaPago"></span>
+				</h6>
+				<h6 class="card-title">
+					<strong>Cantidad a pagar (x mes): </strong> <span id="cantidadPago"></span>
+					<strong>N&uacute;mero de pagos: </strong> <span id="numeroPagos"></span>
+				</h6>	
+			</div>
+		</div>
+	</div>
+	<hr>
 	<!-- Page Content -->
 
 	<!-- Footer -->
 	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
 	<!-- Footer -->
 
+<script>
+
+/*Obtenemos datos del prestamo mediante su ID*/
+$(document).ready(function() {
+	$("#get").click(function() {
+		var url = "http://localhost:8080/prestamos/" + $("#idPrestamo").val();
+		console.log(url);
+		$.get(url, function(data, status) {
+			console.log("Status = " + status);
+			console.log("Data = " + data);
+	 		if(status == "success"){ //si fue exitoso el resultado, mostramos los detalles con una animacion
+				$("#detallePrestamo").first().show("slow");
+			}
+	 		/*mapeamos los dato obtenidos a la vista*/
+	 		
+			$("#id").text(data.idPrestamo);
+			$("#fecha").text(data.fecha);
+			$("#idCliente").text(data.idCliente);
+			$("#cantidad").text(data.cantidad + '  -  ');
+			$("#tasaInteres").text(data.tasaInteres + '  -  ');
+			$("#penalizacionDia").text(data.penalizacionDia + '  -  ');
+			$("#diaPago").text(data.diaPago);
+			$("#cantidadPago").text(data.cantidadPago + '  -  ');
+			$("#numeroPagos").text(data.numeroPagos);
+			
+		}).fail(function(){ //si algo falla al recuperar los datos, mostramos una alerta
+			alert("No se encontro el prestamo que estas buscando :'c");	
+		});
+	});
+});
+</script>
 </body>
 </html>

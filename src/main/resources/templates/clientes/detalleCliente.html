@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+	<!-- Encabezado -->
+	<header th:insert="fragments/menu :: menu-principal"></header>
+	<!-- Encabezado -->
+
+	<!-- Page Content -->
+	<hr>
+	<div class="container">
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Buscar Cliente:</strong>
+			</h4>
+			<div class="card-body">
+			<hr>
+				<div class="col-md-6">
+					<input type="text" class="form-control" id="idCliente"
+						name="idCliente" placeholder="Escriba el ID del cliente"
+						required="required"> <br> <a class="btn btn-primary"
+						role="button" title="Buscar" id="get">Buscar</a>
+						<a class="btn btn-secondary" th:href="@{/cliente}"
+						role="button" title="Regresar">Regresar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="container" id="detalleCliente" style="display: none">
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Detalles del Cliente:</strong>
+			</h4>
+			<div class="card-body">
+				<hr>
+				<h5 class="card-title">
+					<strong>ID Cliente: </strong> <span id="id"></span>
+				</h5>
+				<h6 class="card-title">
+					<strong>Nombre: </strong> <span id="nombre"></span>
+				</h6>
+				<h6 class="card-title">
+					<strong>Salario: </strong><span id="salario"></span>
+				</h6>
+				<h6 class="card-title">
+					<strong>INE: </strong> <span id="ine"></span> <strong>Telefono:
+					</strong> <span id="telefono"></span> <strong>Direcci&oacute;n: </strong> <span
+						id="direccion"></span>
+				</h6>
+				<div class="card bg-light mb-3">
+					<div class="card-body">
+						<h5 class="card-title">Status del cliente</h5>
+						<p class="card-text">
+							El status del cliente es: <strong id="status"></strong> para un
+							nuevo pr&eacute;stamo
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page Content -->
+
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+
+	<script>
+	/*Obtenemos datos del  cliente mediante su ID*/
+		$(document).ready(function() {
+			$("#get").click(function() {
+				var url = "http://localhost:8080/clientes/" + $("#idCliente").val();
+				console.log(url);
+				$.get(url, function(data, status) {
+					console.log("Status = " + status);
+					console.log("Data = " + data);
+			 		if(status == "success"){ //si fue exitoso el resultado, mostramos los detalles con una animacion
+						$("#detalleCliente").first().show("slow");
+					}
+			 		/*mapeamos los dato obtenidos a la vista*/
+					$("#id").text(data.idCliente);
+					$("#nombre").text(data.nombre + ' ' + data.apellidoPaterno + ' ' + data.apellidoMaterno);
+					$("#salario").text(data.salario);
+					$("#ine").text(data.ine);
+					$("#telefono").text(' - ' + data.telefono);
+					$("#direccion").text(' ' + data.direccion);
+					$("#status").text(' ' + data.status);
+				}).fail(function(){ //si algo falla al recuperar los datos, mostramos una alerta
+					alert("No se encontro el cliente a buscar");	
+				});
+			});
+		});
+	</script>
+</body>
+</html>

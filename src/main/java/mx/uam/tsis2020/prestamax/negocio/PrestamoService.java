@@ -25,6 +25,7 @@ import mx.uam.tsis2020.prestamax.negocio.modelo.Prestamo;
 @Slf4j
 public class PrestamoService {
 	
+
 	@Autowired
 	private PrestamoRepository prestamoRepository;
 	

@@ -30,24 +30,23 @@ public class MainController {
 	@Autowired
 	private ClienteService clienteService;
 	
-	@GetMapping("/")
+	@GetMapping("/prestamo")
 	public String main() {
 		return "prestamos/prestamoMenu";
 	}//fin main
 	
-	@RequestMapping("/crear")
+	@RequestMapping("/prestamo/crear")
 	public String crearPrestamo() {
 		return "prestamos/formPrestamo";
 	}//fin crearPrestamo
 	
-	@GetMapping("/listPrestamos")
+	@GetMapping("/prestamo/listPrestamos")
 	public String listPrestamos(Model model) {
-		
 		model.addAttribute("prestamos", prestamoService.retrieveAll());
 		return "prestamos/listPrestamos";
 	}
 	
-	@GetMapping("/eliminar/{id}")
+	@GetMapping("/prestamo/eliminar/{id}")
 	public String listPrestamos(@PathVariable("id") Integer idPrestamo, RedirectAttributes attributes) {
 		if(prestamoService.delete(idPrestamo)) {
 			/*Manda mensaje en la pantalla para confirmar que el prestamo ha sido eliminado con exito*/
@@ -55,10 +54,10 @@ public class MainController {
 		}
 		else
 			attributes.addFlashAttribute("error", "Prestamo no encontrado para eliminar");
-		return "redirect:/listPrestamos";
+		return "redirect:/prestamo/listPrestamos";
 	}
 	
-	@GetMapping("/detalle/{id}")
+	@GetMapping("/prestamo/detalle/{id}")
 	public String detalles(@PathVariable("id") Integer idPrestamo, Model model) {
 		Prestamo prestamo = prestamoService.retrieve(idPrestamo).get();
 		Cliente cliente = clienteService.retrieve(prestamo.getIdCliente());
@@ -67,15 +66,9 @@ public class MainController {
 		return "prestamos/detallePrestamo";
 	}
 	
-	@GetMapping("/buscaPrestamo")
+	@GetMapping("/prestamo/buscaPrestamo")
 	public String buscaPrestamo() {
 		return "prestamos/buscaPrestamo";
-	}
-	
-	@RequestMapping("/prestamos/id")
-	@ResponseBody
-	public String prestamosId(){
-		return "Pagina prestamo";
 	}
 	
 	@RequestMapping("/pagos")
@@ -91,15 +84,35 @@ public class MainController {
 	}
 	
 	@RequestMapping("/cliente")
-	@ResponseBody
 	public String cliente(){
-		return "Pagina clientes";
+		return "clientes/clienteMenu";
 	}
 	
-	@RequestMapping("/cliente/id")
-	@ResponseBody
-	public String clienteId(){
-		return "Pagina cliente";
+	@GetMapping("/cliente/crear")
+	public String formCliente() {
+		return "clientes/formCliente";
+	}
+	
+	@GetMapping("/cliente/buscar")
+	public String detalle() {
+		return "clientes/detalleCliente";
+	}
+	
+	@GetMapping("/cliente/list")
+	public String listClientes(Model model) {
+		model.addAttribute("clientes", clienteService.retrieveAll());
+		return "clientes/listCliente";
+	}
+	
+	@RequestMapping("/cliente/eliminar/{id}")
+	public String clienteId(@PathVariable("id") Integer idCliente, RedirectAttributes attributes) {
+		if(clienteService.delete(idCliente)) {
+			/*Manda mensaje en la pantalla para confirmar que el prestamo ha sido eliminado con exito*/
+			attributes.addFlashAttribute("msg", "Cliente eliminado");
+		}
+		else
+			attributes.addFlashAttribute("error", "Cliente no encontrado para eliminar");
+		return "redirect:/cliente/list";		
 	}
 	
 	@RequestMapping("/empleado")

@@ -52,5 +52,6 @@ public class Pago {
 	@ApiModelProperty(notes="penalizacion del pago tardio", required=true)
 	private Double penalizacion;
 
+
 }
 

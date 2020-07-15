@@ -26,10 +26,12 @@
 				<strong>Datos de la oferta de trabajo</strong>
 			</h4>
 			<div class="card-body">
+			<strong id="msg" style="color:red;" bgcolor="green"></strong>
+			<hr>
 				<form>
 					<div class="row">
 						<div class="col-md-5">
-							<label for="nombre">ID Cliente</label>
+							<label for="idCliente">ID Cliente</label>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text"> 
@@ -41,13 +43,11 @@
 									</span>
 								</div>
 								<input type="text" class="form-control" id="idCliente"
-									name="idCliente"
-									placeholder="ID del cliente que requiere un prestamo"
-									required="required">
+									name="idCliente" placeholder="ID del cliente que requiere un prestamo" required="required">
 							</div>
 						</div>
 						<div class="col-md-5">
-							<label for="descripcion">ID Empleado</label>
+							<label for="idEmpleado">ID Empleado</label>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text"> 
@@ -74,7 +74,7 @@
 							</div>
 						</div>
 						<div class="col-md-3">
-						<label for="archivoImagen">Sueldo</label>
+						<label for="sueldo">Sueldo</label>
 							<div class="input-group-prepend">
 								<span class="input-group-text">$</span>
 								 <input type="text" class="form-control" name="sueldo"
@@ -82,7 +82,7 @@
 							</div>
 						</div>
 						<div class="col-md-3">
-							<label for="categoria">Periodo del pr&eacute;stamo</label> 
+							<label for="meses">Periodo del pr&eacute;stamo</label> 
 							<div class="input-group-prepend">
 								<span class="input-group-text">
 									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-heading" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -103,13 +103,13 @@
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="fecha">Fecha l&iacute;mite de pago</label> <input
+								<label for="fechaLimite">Fecha l&iacute;mite de pago</label> <input
 									type="date" class="form-control" name="fechaLimite" id="fechaLimite"
 									placeholder="Fecha limite de pago" required="required">
 							</div>
 						</div>
 						<div class="col-md-3">
-							<label for="categoria">Cantidad del pr&eacute;stamo</label> 
+							<label for="cantidad">Cantidad del pr&eacute;stamo</label> 
 							<div class="input-group-prepend">
 								<span class="input-group-text">$</span>
 								<input type="text" class="form-control" name="cantidad"
@@ -117,7 +117,7 @@
 							</div>
 						</div>
 						<div class="col-md-3">
-							<label for="categoria">Penalizaci&oacute;n</label> 
+							<label for="penalizacion">Penalizaci&oacute;n</label> 
 							<div class="input-group-prepend">
 								<span class="input-group-text">$</span>
 								<input type="text" class="form-control" name="penalizacion"
@@ -127,7 +127,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3">
-						<label for="salario">Tasa de inter&eacute;s</label>
+						<label for="tasaInteres">Tasa de inter&eacute;s</label>
 							<div class="input-group-prepend">
 							<span class="input-group-text">%</span>
 								 <input	type="text" class="form-control" name="tasaInteres" id="tasaInteres"
@@ -135,7 +135,7 @@
 							</div>
 						</div>
 						<div class="col-md-3">
-						<label for="archivoImagen">Cantidad de pago</label>
+						<label for="cantidadPago">Cantidad de pago</label>
 							<div class="input-group-prepend">
 								<span class="input-group-text">$</span>
 								 <input type="text" class="form-control" name="cantidadPago"
@@ -144,14 +144,14 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="fecha">D&iacute;a de pago</label> <input
+								<label for="diaDePago">D&iacute;a de pago</label> <input
 									type="text" class="form-control" name="diaDePago" id="diaDePago"
 									placeholder="Dia del pago" required="required" value="1">
 							</div>
 						</div>
 					</div>
 					<button type="submit" id="post" class="btn btn-primary">Guardar</button>
-					<a class="btn btn-secondary" th:href="@{/}">Regresar</a>					
+					<a class="btn btn-secondary" th:href="@{/prestamo}">Regresar</a>					
 				</form>
 			</div>
 		</div>
@@ -168,6 +168,10 @@
 $('#tasaInteres').prop('disabled', true);
 $('#penalizacion').prop('disabled', true);
 $('#fechaLimite').prop('disabled', true);
+$("#diaDePago").prop('disabled', true);
+
+/*Se inicia el formulario con tasa de interes de 5%*/
+$('#tasaInteres').val(5);
 
 /*Escribimos en el formulario la fecha actual y la fecha del dia de pago de cada mes*/
 window.onload = function(){
@@ -193,9 +197,7 @@ window.onload = function(){
 			    mesL='0'+mesL //agrega cero si el menor de 10
 	  document.getElementById('fechaLimite').value=anoL+"-"+mesL+"-"+diaL;
 	}
-	
-	/*no se puede cambiar el dia máximo que se tiene para realizarel pago del mes*/
-	$("#diaDePago").prop('disabled', true);
+		
 
 	/*Se puede hacer un prestamos solo si el cliente gana más de $4 mil*/
 	$("#sueldo").on("change",function(){
@@ -264,8 +266,19 @@ window.onload = function(){
 	
 	/*Valida el máximo de cantidad de prestamo en base al sueldo del cliente*/
 	function validarPrestamo() {
+		/*Colocamos tasa de ineteres dependiendo del monto a prestar*/
+		if($('#cantidad').val() <= 50000){
+			$('#tasaInteres').val(5);
+		}
+		else{
+			$('#tasaInteres').val(10);
+		}
 		var x = document.getElementById("cantidad");
-		
+		var prestamo = $('#cantidad').val();
+		var tasaInteres = $('#tasaInteres').val() / 100;
+		var meses = $('#meses').val();
+		var total = (Number(prestamo) + Number((prestamo* tasaInteres))) / meses;
+		$('#cantidadPago').val(total);	
 			
 		/*Validacion de prestamo para un suelo entre 5 mil y 15 mil*/
 		if($("#sueldo").val() >= 4000 && $("#sueldo").val() <= 5000) {
@@ -277,7 +290,7 @@ window.onload = function(){
 			else{
 				$('#post').attr('disabled', false);
 				/*Mostramos la cantidad a pagar cada mes la cual no se puede modificar*/
-				$('#cantidadPago').val((Number(x.value) + Number((x.value*0.05))) / $('#meses').val());	
+				//$('#cantidadPago').val((Number(x.value) + Number((x.value*0.05))) / $('#meses').val());	
 				$('#cantidadPago').prop('disabled', true);	
 				
 			}
@@ -292,7 +305,7 @@ window.onload = function(){
 				else{
 					$('#post').attr('disabled', false);
 					/*Mostramos la cantidad a pagar cada mes la cual no se puede modificar*/
-					$('#cantidadPago').val((Number(x.value) + Number((x.value*0.05))) / $('#meses').val());	
+					//$('#cantidadPago').val((Number(x.value) + Number((x.value*0.05))) / $('#meses').val());	
 					$('#cantidadPago').prop('disabled', true);
 					/*Colocamos la penalización en base al prestamo dado*/
 				}
@@ -307,7 +320,7 @@ window.onload = function(){
 					else{
 						$('#post').attr('disabled', false);
 						/*Mostramos la cantidad a pagar cada mes la cual no se puede modificar*/
-						$('#cantidadPago').val((Number(x.value) + Number((x.value*0.1))) / $('#meses').val());	
+						//$('#cantidadPago').val((Number(x.value) + Number((x.value*0.1))) / $('#meses').val());	
 						$('#cantidadPago').prop('disabled', true);	
 						/*Colocamos la penalización en base al prestamo dado*/
 					}
@@ -320,7 +333,7 @@ window.onload = function(){
 					else{
 						$('#post').attr('disabled', false);
 						/*Mostramos la cantidad a pagar cada mes la cual no se puede modificar*/
-						$('#cantidadPago').val((Number(x.value) + Number((x.value*0.1))) / $('#meses').val());	
+						//$('#cantidadPago').val((Number(x.value) + Number((x.value*0.1))) / $('#meses').val());	
 						$('#cantidadPago').prop('disabled', true);	
 						/*Colocamos la penalización en base al prestamo dado*/
 					}
@@ -330,15 +343,6 @@ window.onload = function(){
 		
 	}//fin validarPrestamo
 	
-	function validaCantidadPago(){
-		var prestamo = $('#cantidad').val();
-		var meses = $('#meses').val();
-		var tasaInteres = $('#tasaInteres').val() / 100;
-		var total = (Number(prestamo) + Number((prestamo* tasaInteres))) / meses;
-		return total;
-	}
-
-
 	
 	/*Enviamos formulario*/
 	$(document).ready(function(){
@@ -351,7 +355,12 @@ window.onload = function(){
 			var prestamoJSON = JSON.stringify(prestamo);
 			console.log("Prestamo = "+prestamoJSON);
 			$.post("http://localhost:8080/prestamos", prestamoJSON, function(data, status){
-				$("#result").html(data.creada);
+				if(status == "success"){
+					$("#msg").text("Registro exitoso");
+					window.location="http://localhost:8080/prestamo";
+				}
+			}).fail(function(){
+				alert("Ocurrio un problema al registrar el prestamo. \nPor favor, verifique sus datos.");
 			});
 		});
 	});

@@ -2,10 +2,13 @@ package mx.uam.tsis2020.prestamax.negocio;
 
 import java.util.Optional;
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import lombok.extern.slf4j.Slf4j;
 import mx.uam.tsis2020.prestamax.PrestamaxApplication;
 import mx.uam.tsis2020.prestamax.datos.ClienteRepository;
@@ -89,6 +92,17 @@ public class ClienteService {
 			return null;
 	}
    
-  
+	public boolean delete(Integer idCliente) {
+		//Recupero el prestamo que se intenta eliminar
+		Optional<Cliente> prestamo = clienteRepository.findById(idCliente);
+		
+		//Confirmo que existe
+		if(prestamo.isPresent()) {
+			clienteRepository.deleteById(idCliente);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

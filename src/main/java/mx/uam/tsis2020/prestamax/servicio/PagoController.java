@@ -35,7 +35,6 @@ import mx.uam.tsis2020.prestamax.negocio.modelo.Prestamo;
 @RestController
 @Slf4j
 public class PagoController {
-
 	
 	@Autowired
 	private PagoService pagoService;
