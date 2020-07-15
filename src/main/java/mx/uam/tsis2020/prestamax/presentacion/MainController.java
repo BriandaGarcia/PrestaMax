@@ -33,6 +33,10 @@ public class MainController {
 		log.info("Se invoco el login");
 		return "administracion";
 	}
+	@GetMapping("/PaneldeControl")
+	public String panel() {
+		return "PaneldeControl";
+	}
 	/**Metodo que manda al empleado a su pagina correspondiente**/
 	@GetMapping("/empleado")
 	public String empleado(){

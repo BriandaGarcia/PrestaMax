@@ -115,7 +115,7 @@
 			if(nombre=="" || apellidop=="" || apellidom=="" || cargo=="" || contraseña=="" || salario==""){
 				alert("Debes de llenar todos los campos");
 			}else{
-				var empleado={apellidoMaterno:apellidom,apellidoPaterno:apellidom,cargo:cargo,nombre:nombre,password:contraseña,salario:salario};
+				var empleado={apellidoMaterno:apellidom,apellidoPaterno:apellidop,cargo:cargo,nombre:nombre,password:contraseña,salario:salario};
 				var empleadoJSON=JSON.stringify(empleado);
 				
 				console.log("empleado="+ empleadoJSON);

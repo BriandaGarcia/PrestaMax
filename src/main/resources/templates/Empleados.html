@@ -11,9 +11,11 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<!---Importamos Jquery-->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	
 	<!--Definicion de estilos-->
 	<style>
 		body{
+			background: linear-gradient(45deg, #49a09d, #5f2c82);
             overflow-x: hidden;
         }
         header{
@@ -25,79 +27,78 @@
 		li{
 			display:inline-block;
 		}
-		/*****/
-		html,
-body {
-	height: 100%;
-}
-
-body {
-	margin: 0;
-	background: linear-gradient(45deg, #49a09d, #5f2c82);
-	font-family: sans-serif;
-	font-weight: 100;
-}
-
-.container {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-table {
-	width: 800px;
-	border-collapse: collapse;
-	overflow: hidden;
-	box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-
-th,
-td {
-	padding: 15px;
-	background-color: rgba(255,255,255,0.2);
-	color: #fff;
-}
-
-th {
-	text-align: left;
-}
-
-thead {
-	th {
-		background-color: #55608f;
-	}
-}
-
-tbody {
-	tr {
-		&:hover {
-			background-color: rgba(255,255,255,0.3);
+		/***Estilos para la tabla**/
+		
+		table {
+			width: 800px;
+			border-collapse: collapse;
+			overflow-x: hidden;
+			overflow-y: auto;
 		}
-	}
-	td {
-		position: relative;
-		&:hover {
-			&:before {
-				content: "";
-				position: absolute;
-				left: 0;
-				right: 0;
-				top: -9999px;
-				bottom: -9999px;
-				background-color: rgba(255,255,255,0.2);
-				z-index: -1;
+		
+		th,
+		td {
+			padding:6px;
+			background-color: rgba(255,255,255,0.2);
+			color: #fff;
+		}
+		
+		th {
+			text-align: left;
+		}
+		
+		thead {
+			th {
+				background-color: #55608f;
 			}
 		}
-	}
-}
+		/**Estilos para el popup**/
+		@charset "utf-8";
+		.overlay {
+		    position: fixed;
+		    top: 0;
+		    bottom: 0;
+		    left: 0;
+		    right: 0;
+		    background: rgba(0, 0, 0, 0.7);
+		    transition: opacity 500ms;
+		    visibility: hidden;
+		    opacity: 0;
+		}
+		.overlay:target {
+		    visibility: visible;
+		    opacity: 1;
+		}
+		#popupBody{
+		    width: 46%;
+		    padding: 2%;
+		    border-radius: 15px;
+		    box-shadow: 0 0 5px #CCC;
+		    background: #FFF;
+		    position: relative;
+		    transition: all 5s ease-in-out;
+		    margin: 20% auto;    
+		}
+		#cerrar{
+		    position: absolute;
+		    top: 20px;
+		    right: 30px;
+		    transition: all 200ms;
+		    font-size: 30px;
+		    font-weight: bold;
+		    text-decoration: none;
+		    color: #F00;
+		}
+
+
 	</style>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
+	var empleados;
 		$(document).ready(function(){
 			//en esta variable guardo los empleados que devuelve la peticion
-			var empleados;
+			
 			 $.ajaxSetup({contentType:"application/json; charset=utf-8"});
 			 $.get("http://localhost:8080/empleados",function(data, status){
 				 var estado=status;
@@ -121,8 +122,8 @@ tbody {
 				 		$("#tbody").append($("<td>"+am+"</td>"));
 				 		$("#tbody").append($("<td>"+salario+"</td>"));
 				 		$("#tbody").append($("<td>"+cargo+"</td>"));
-				 		$("#tbody").append($("<td><button class='btn btn-warning' id='"+id+"' data-toggle='modal' data-target=''#exampleModal'"+">"+"Actualizar"+"</button></td>"));
-				 		$("#tbody").append($("<td><button class='btn btn-danger' id='"+id+"'>"+"Eliminar"+"</button></td>"));
+				 		$("#tbody").append($("<td><button class='btn btn-warning' onclick='update(this)' type='button' id='"+id+"'>"+"Actualizar"+"</button></td>"));
+				 		$("#tbody").append($("<td><button class='btn btn-danger' id='"+id+"' onclick='eliminar(this)'>"+"Eliminar"+"</button></td>"));
 						$("tbody").append($("</tr>"));
 				 	}
 				 	$("#table").append($("</tbody></table>"));
@@ -131,7 +132,84 @@ tbody {
 				 }
 			 });
 			 
+			 $("#send").click(function(){
+				 var nombre=$("#NOMBRE").val();
+				 var apellidoPaterno=$("#APELLIDOP").val();
+				 var apellidoMaterno=$("#APELLIDOM").val();
+				 var cargo=$("#cargo").val();
+				 var password=$("#PASSWORD").val();
+				 var salario=$("#SALARIO").val();
+				 
+				 if(nombre=="" || apellidoPaterno=="" || apellidoMaterno=="" || cargo=="" || password=="" || salario==""){
+					alert("Debes de llenar todos los campos");					 
+				 }else{
+					var empleado={apellidoMaterno:apellidoMaterno,apellidoPaterno:apellidoPaterno,cargo:cargo,nombre:nombre,password:password,salario:salario};
+					var empleadoJSON=JSON.stringify(empleado);
+						
+					console.log("empleado="+ empleadoJSON);
+						
+					$.post("http://localhost:8080/empleados",empleadoJSON,function(data, status){
+						console.log(status);
+						var estado=status;
+						if(estado=="success"){
+							alert("Empleado actualizado exitosamente!!");
+							
+						}else{
+							alert("No se pudo registrar el alumno");
+						}
+						console.log("vamos a eliminar el empleado con id: "+id);
+						$.ajax({
+						    url: 'http://localhost:8080/empleados/'+id,
+						    type: 'DELETE',
+						    contentType: 'application/json',
+						    success: function(result) {
+						    	$(location).attr("href","/VerEmpleados");
+						    	}
+						 });
+					});
+				 }
+				 
+			 });
+			
 		});
+		var id;
+		function update(element){
+			id=element.id;
+			var i;
+			var size=empleados.length;
+			for(i=0;i<size;i++){
+				var identificador=empleados[i].idEmpleado;
+		 		if(identificador==id){
+		 			var nombre=empleados[i].nombre;
+			 		var ap=empleados[i].apellidoPaterno;
+			 		var am=empleados[i].apellidoMaterno;
+			 		var salario=empleados[i].salario;
+			 		var cargo=empleados[i].cargo;
+			 		document.getElementById("NOMBRE").value=nombre;
+			 		document.getElementById("APELLIDOP").value=ap;
+			 		document.getElementById("APELLIDOM").value=am;
+			 		document.getElementById("SALARIO").value=salario;
+		 		}
+			}
+			
+		}
+		function eliminar(element){
+			$(location).attr("href","#popup");
+			var deleteID=element.id;
+			$("#aceptar").click(function(){
+				$.ajax({
+				    url: 'http://localhost:8080/empleados/'+deleteID,
+				    type: 'DELETE',
+				    contentType: 'application/json',
+				    success: function(result) {
+				    	$(location).attr("href","/VerEmpleados");
+				    	}
+				 });
+			});
+			$("#cancelar").click(function(){
+				$(location).attr("href","#");
+			});
+		}
   		
 	</script>
 </head>
@@ -151,29 +229,76 @@ tbody {
             </div>
         </div>
     </header>
-	<div class="container" id="table">
+    <a class="btn btn-primary" href="/administracion" style="margin-top:3px;margin-left:8px;">Regresar</a>
+	<div  style="margin-top:10px;display:flex;">
+		
+		<div id="table" style="margin-left:6px;">
 		
 		
+		</div>
+		<div class="container" style="margin-left:5px;">
+			<div class="row">
+				<div class="card">
+					<div class="card-header">
+						<h3>Actualizar datos de Empleados</h3>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm">
+								<input class="form-control" id="NOMBRE" placeholder="NOMBRE">
+							</div>	
+						</div><br>
+						<div class="row">
+							<div class="col-sm">
+								<input class="form-control" id="APELLIDOP" placeholder="APELLIDO PATERNO">
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-sm">
+								<input class="form-control" id="APELLIDOM" placeholder="APELLIDO MATERNO">
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-sm">
+								<select name="cargo" class="form-control" id="cargo">
+                                        <option>CARGO</option>
+                                        <option value="administrador">ADMINISTRADOR</option>
+                                        <option value="empleado">EMPLEADO</option>
+                                 </select>
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-sm">
+								<input class="form-control" id="SALARIO" placeholder="SALARIO">
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-sm">
+								<input class="form-control" id="PASSWORD" placeholder="CONTRASEÑA" type="password">
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-sm">
+								<button class="btn btn-success" id="send">Actualizar</button>
+							</div>
+						</div><br>
+					</div>
+					<div class="card-footer">
+						
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="updateEmployee">
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+	<div id="popup" class="overlay">
+	    <div id="popupBody">
+	    	<h3>¿Esta seguro de que desea eliminar este empleado?</h3>
+	    	<a id="cerrar" href="#">&times;</a>
+	    	<div class="popupContent">
+			    <button class="btn btn-success" id="aceptar">Aceptar</button>
+			    <button class="btn btn-danger" id="cancelar">Cancelar</button>
+	    	</div>
+	    </div>
     </div>
-  </div>
-</div>
 </body>
 </html>
