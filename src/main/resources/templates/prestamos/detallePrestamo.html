@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+</head>
+<body>
+	<!-- Encabezado -->
+	<header th:insert="fragments/menu :: menu-principal"></header>
+	<!-- Encabezado -->
+
+	<!-- Page Content -->
+	<hr>
+	<div class="container">
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Detalles del Pr&eacute;stamo:</strong>
+			</h4>
+			<div class="card-body">
+				<h5 class="card-title">
+					<strong>ID Pr&eacute;stamo: </strong> <span th:text="${prestamo.idPrestamo}"></span>
+				</h5>
+				<h6 class="card-title">
+					<strong>Fecha de creacion: </strong> <span th:text="${prestamo.fecha}"></span>
+				</h6>
+				<h6 class="card-title">
+					<strong>ID cliente: </strong><span th:text="${cliente.idCliente}"></span> - <strong>Nombre: </strong><span th:text="${cliente.nombre} + ' ' +${cliente.apellidoPaterno} + ' ' + ${cliente.apellidoMaterno}"></span>
+				</h6>	
+				<h6 class="card-title">
+					<strong>Cantidad del pr&eacute;stamo: </strong> <span th:text="${prestamo.cantidad} + ' - '"></span>
+					<strong>Tasa de inter&eacute;s: </strong> <span th:text="${prestamo.tasaInteres} + ' - '"></span>
+					<strong>Penalizaci&oacute;n por d&iacute;a: </strong> <span th:text="'$' + ${prestamo.penalizacionDia} + ' - '"></span>
+					<strong>D&iacute;a de pago: </strong> <span th:text="${prestamo.diaPago} + ' de cada mes'"></span>
+				</h6>
+				<h6 class="card-title">
+					<strong>Cantidad a pagar (x mes): </strong> <span th:text="'$' + ${prestamo.cantidadPago} + ' - '"></span>
+					<strong>N&uacute;mero de pagos: </strong> <span th:text="${prestamo.numeroPagos}"></span>
+				</h6>		
+				<br>
+					<a class="btn btn-secondary" th:href="@{/listPrestamos}" role="button"
+					title="Quiero aplicar para esta oferta de trabajo."><i
+					class="fas fa-file" aria-hidden="true"></i>Regresar</a>
+			</div>
+		</div>
+	</div>
+	<!-- Page Content -->
+
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	rel="stylesheet">
+
+</head>
+<body>
+	<!-- Encabezado -->
+	<header th:insert="fragments/menu :: menu-principal"></header>
+	<!-- Encabezado -->
+
+
+	<!-- Page Content -->
+
+	<hr>
+	<div class="container">
+
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Lista de Pr&eacute;stamos</strong>
+			</h4>
+			<div class="card-body">
+
+				<a class="btn btn-secondary" th:href="@{/crear}"
+					title="Crear nueva Oferta de Trabajo" role="button"><i
+					class="fas fa-file" aria-hidden="true"></i>Nuevo</a>
+				<hr>
+				<div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+				<div th:if="${error != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>            
+				<table class="table table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">ID Pr&eacute;stamo</th>
+							<th scope="col">ID Cliente</th>
+							<th scope="col">Cantidad del Pr&eacute;stamo</th>
+							<th scope="col">Pago por mes</th>
+							<th scope="col">Meses</th>
+							<th scope="col">Fecha creaci&oacute;n</th>
+							<th scope="col">Opciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="prestamo: ${prestamos}">
+							<td th:text="${prestamo.idPrestamo}"></td>
+							<td th:text="${prestamo.idCliente}"></td>
+							<td th:text="${prestamo.cantidad}"></td>
+							<td th:text="${prestamo.cantidadPago}"></td>
+							<td th:text="${prestamo.numeroPagos + ' meses'}">7</td>
+							<td th:text="${prestamo.fecha}"></td>
+							<td>
+							
+							<a th:href="@{/detalle/} + ${prestamo.idPrestamo}" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i
+									class="bi bi-eye" aria-hidden="true"></i>Detalles</a> 
+							<a th:href="@{/crear}" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i
+									class="fas fa-pencil-alt" aria-hidden="true"></i></a> 
+							<a th:href="@{/eliminar/} + ${prestamo.idPrestamo}" conclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button"
+								title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Page Content -->
+
+
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+
+</body>
+</html>

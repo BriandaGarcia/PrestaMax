@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.uam.tsis2020.prestamax.negocio.ClienteService;
@@ -45,6 +45,17 @@ public class MainController {
 		
 		model.addAttribute("prestamos", prestamoService.retrieveAll());
 		return "prestamos/listPrestamos";
+	}
+	
+	@GetMapping("/eliminar/{id}")
+	public String listPrestamos(@PathVariable("id") Integer idPrestamo, RedirectAttributes attributes) {
+		if(prestamoService.delete(idPrestamo)) {
+			/*Manda mensaje en la pantalla para confirmar que el prestamo ha sido eliminado con exito*/
+			attributes.addFlashAttribute("msg", "Prestamo eliminado");
+		}
+		else
+			attributes.addFlashAttribute("error", "Prestamo no encontrado para eliminar");
+		return "redirect:/listPrestamos";
 	}
 	
 	@GetMapping("/detalle/{id}")

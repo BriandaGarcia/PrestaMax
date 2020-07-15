@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+	
+</head>
+<body>
+	<!-- Encabezado -->
+	<header th:insert="fragments/menu :: menu-principal"></header>
+	<!-- Encabezado -->
+
+
+	<!-- Page Content -->
+	<hr>
+	<div class="container">
+
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Datos de la oferta de trabajo</strong>
+			</h4>
+			<div class="card-body">
+				<form>
+					<div class="row">
+						<div class="col-md-5">
+							<label for="nombre">ID Cliente</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text"> 
+										<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-key-fill"
+											fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd"
+											d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+										</svg>
+									</span>
+								</div>
+								<input type="text" class="form-control" id="idCliente"
+									name="idCliente"
+									placeholder="ID del cliente que requiere un prestamo"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<label for="descripcion">ID Empleado</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text"> 
+										<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-key-fill"
+											fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd"
+											d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+										</svg>
+									</span>
+								</div>
+								<input type="text"
+									class="form-control" id="idEmpleado" name="idEmpleado"
+									placeholder="ID del proveedor del prestamo" required="required">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="fecha">Fecha creaci&oacute;n de
+									Pr&eacute;stamo</label> <input type="date" class="form-control"
+									name="fechaCreacion" id="fechaCreacion" placeholder="Fecha de hoy"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+						<label for="archivoImagen">Sueldo</label>
+							<div class="input-group-prepend">
+								<span class="input-group-text">$</span>
+								 <input type="text" class="form-control" name="sueldo"
+									id="sueldo" placeholder="Sueldo del cliente" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label for="categoria">Periodo del pr&eacute;stamo</label> 
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-heading" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+  <path fill-rule="evenodd" d="M3 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+  <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-1z"/>
+									</svg>
+								</span>
+								<select class="form-control" name="meses" id="meses">
+									<option value="6">6 meses</option>
+									<option value="12">12 meses</option>
+									<option value="18">18 meses</option>
+									<option value="24">24 meses</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="fecha">Fecha l&iacute;mite de pago</label> <input
+									type="date" class="form-control" name="fechaLimite" id="fechaLimite"
+									placeholder="Fecha limite de pago" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label for="categoria">Cantidad del pr&eacute;stamo</label> 
+							<div class="input-group-prepend">
+								<span class="input-group-text">$</span>
+								<input type="text" class="form-control" name="cantidad"
+									id="cantidad" onkeyup="validarPrestamo()" placeholder="cantidad a prestar" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label for="categoria">Penalizaci&oacute;n</label> 
+							<div class="input-group-prepend">
+								<span class="input-group-text">$</span>
+								<input type="text" class="form-control" name="penalizacion"
+									id="penalizacion" placeholder="Penalizacion por dia" required="required">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+						<label for="salario">Tasa de inter&eacute;s</label>
+							<div class="input-group-prepend">
+							<span class="input-group-text">%</span>
+								 <input	type="text" class="form-control" name="tasaInteres" id="tasaInteres"
+									placeholder="Tasa de interes" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+						<label for="archivoImagen">Cantidad de pago</label>
+							<div class="input-group-prepend">
+								<span class="input-group-text">$</span>
+								 <input type="text" class="form-control" name="cantidadPago"
+									id="cantidadPago" placeholder="Pago x mes" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="fecha">D&iacute;a de pago</label> <input
+									type="text" class="form-control" name="diaDePago" id="diaDePago"
+									placeholder="Dia del pago" required="required" value="1">
+							</div>
+						</div>
+					</div>
+					<button type="submit" id="post" class="btn btn-primary">Guardar</button>
+					<a class="btn btn-secondary" th:href="@{/}">Regresar</a>					
+				</form>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<!-- Page Content -->
+<p id="result"></p>
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+
+<script>
+/*Campos que no se pueden cambiar su valor*/
+$('#tasaInteres').prop('disabled', true);
+$('#penalizacion').prop('disabled', true);
+$('#fechaLimite').prop('disabled', true);
+
+/*Escribimos en el formulario la fecha actual y la fecha del dia de pago de cada mes*/
+window.onload = function(){
+	  var meses = Number($('#meses').val());
+	  var fecha = new Date(); //Fecha actual
+	  var mes = fecha.getMonth()+1; //obteniendo mes
+	  var dia = fecha.getDate(); //obteniendo dia
+	  var ano = fecha.getFullYear(); //obteniendo año
+	  if(dia<10)
+	    dia='0'+dia; //agrega cero si el menor de 10
+	  if(mes<10)
+	    mes='0'+mes //agrega cero si el menor de 10
+	  document.getElementById('fechaCreacion').value=ano+"-"+mes+"-"+dia;
+	  /*Fecha limite de pago al iniciar el formulario*/
+	  var fechaLim = new Date();
+	   fechaLim.setMonth(fechaLim.getMonth() + meses);
+	   var mesL = fechaLim.getMonth()+1; //obteniendo mes
+		  var diaL = fechaLim.getDate(); //obteniendo dia
+		  var anoL = fechaLim.getFullYear(); //obteniendo año  
+		  if(diaL<10)
+			    diaL='0'+diaL; //agrega cero si el menor de 10
+			  if(mesL<10)
+			    mesL='0'+mesL //agrega cero si el menor de 10
+	  document.getElementById('fechaLimite').value=anoL+"-"+mesL+"-"+diaL;
+	}
+	
+	/*no se puede cambiar el dia máximo que se tiene para realizarel pago del mes*/
+	$("#diaDePago").prop('disabled', true);
+
+	/*Se puede hacer un prestamos solo si el cliente gana más de $4 mil*/
+	$("#sueldo").on("change",function(){
+		if($("#sueldo").val() < 4000){
+			$("#cantidad").val(0);
+			$("#cantidad").prop('disabled', true);
+			$('#post').attr('disabled', true);
+		}
+		else{
+			$("#cantidad").prop('disabled', false);
+			$('#post').attr('disabled', false);
+		}
+	});
+	
+	/*Mostramos la tasa de ineterés para el préstamos y no es psoible cambiarlo*/
+	$('#cantidad').on("change",function(){
+		/*Tasa de ineteres por prestamo*/
+		if($('#cantidad').val() <= 50000){
+			$('#tasaInteres').val(5);
+		}
+		else{
+			$('#tasaInteres').val(10);
+		}
+		
+		/*Penalizacion por no pagar a tiempo x dia*/
+		if($('#cantidad').val() <= 20000){
+			$('#penalizacion').val(100);
+		}
+		else{
+			if($('#cantidad').val() <= 50000){
+				$('#penalizacion').val(300);
+			}
+			else{
+				if($('#cantidad').val() <= 100000){
+					$('#penalizacion').val(500);
+				}
+				else{
+					$('#penalizacion').val(750);
+				}
+			}
+		}
+
+	});
+	
+	/*Si se cambia el mes también actualizamos la cantidad de pago que debe efectuar el cliente cada mes*/
+	$("#meses").on("change", function(){
+		var prestamo = $('#cantidad').val();
+		var tasaInteres = $('#tasaInteres').val() / 100;
+		var meses = $('#meses').val();
+		var total = (Number(prestamo) + Number((prestamo* tasaInteres))) / meses;
+		$('#cantidadPago').val(total);	
+		$('#cantidadPago').prop('disabled', true);
+		
+		/*Colocando la fecha límite de pago*/
+		var fechaLim = new Date();
+		fechaLim.setMonth(fechaLim.getMonth() + Number(meses));
+		var mesL = fechaLim.getMonth()+1; //obteniendo mes
+		var diaL = fechaLim.getDate(); //obteniendo dia
+		var anoL = fechaLim.getFullYear(); //obteniendo año
+			if(diaL<10)
+			    diaL='0'+diaL; //agrega cero si el menor de 10
+			if(mesL<10)
+				mesL='0'+mesL //agrega cero si el menor de 10    
+		  document.getElementById('fechaLimite').value=anoL+"-"+mesL+"-"+diaL;
+	});
+	
+	/*Valida el máximo de cantidad de prestamo en base al sueldo del cliente*/
+	function validarPrestamo() {
+		var x = document.getElementById("cantidad");
+		
+			
+		/*Validacion de prestamo para un suelo entre 5 mil y 15 mil*/
+		if($("#sueldo").val() >= 4000 && $("#sueldo").val() <= 5000) {
+			/*Validamos que solo se pueda prestar un máximo de $20 mil*/
+			if(x.value > 20000){
+				alert ("Solo se puede prestar hasta un maximo de $20,000");
+				$('#post').attr('disabled', true);
+			}
+			else{
+				$('#post').attr('disabled', false);
+				/*Mostramos la cantidad a pagar cada mes la cual no se puede modificar*/
+				$('#cantidadPago').val((Number(x.value) + Number((x.value*0.05))) / $('#meses').val());	
+				$('#cantidadPago').prop('disabled', true);	
+				
+			}
+		}
+		else{
+			/*Validamos el máximo de prestamo si el sueldo es menor que $30 mil*/
+			if($("#sueldo").val() <= 15000){
+				if(x.value > 50000){ //se presta a lo máximo $50 mil
+					alert ("Solo se puede prestar hasta un maximo de $50,000");
+					$('#post').attr('disabled', true);
+				}
+				else{
+					$('#post').attr('disabled', false);
+					/*Mostramos la cantidad a pagar cada mes la cual no se puede modificar*/
+					$('#cantidadPago').val((Number(x.value) + Number((x.value*0.05))) / $('#meses').val());	
+					$('#cantidadPago').prop('disabled', true);
+					/*Colocamos la penalización en base al prestamo dado*/
+				}
+			}
+			else{				
+				/*Si el sueldo es menor de $30mil a lo más se puede prestar $100 mil*/
+				if($("#sueldo").val() <= 30000){
+					if(x.value > 100000){
+						alert ("Solo se puede prestar hasta un maximo de $100,000");
+						$('#post').attr('disabled', true);
+					}
+					else{
+						$('#post').attr('disabled', false);
+						/*Mostramos la cantidad a pagar cada mes la cual no se puede modificar*/
+						$('#cantidadPago').val((Number(x.value) + Number((x.value*0.1))) / $('#meses').val());	
+						$('#cantidadPago').prop('disabled', true);	
+						/*Colocamos la penalización en base al prestamo dado*/
+					}
+				}
+				else{ /*Solo se puede prestar hasta $150 mil*/
+					if(x.value > 150000){ 
+						alert ("Solo se puede prestar hasta un maximo de $150,000");
+						$('#post').attr('disabled', true);
+					}
+					else{
+						$('#post').attr('disabled', false);
+						/*Mostramos la cantidad a pagar cada mes la cual no se puede modificar*/
+						$('#cantidadPago').val((Number(x.value) + Number((x.value*0.1))) / $('#meses').val());	
+						$('#cantidadPago').prop('disabled', true);	
+						/*Colocamos la penalización en base al prestamo dado*/
+					}
+				}
+			}
+		}
+		
+	}//fin validarPrestamo
+	
+	function validaCantidadPago(){
+		var prestamo = $('#cantidad').val();
+		var meses = $('#meses').val();
+		var tasaInteres = $('#tasaInteres').val() / 100;
+		var total = (Number(prestamo) + Number((prestamo* tasaInteres))) / meses;
+		return total;
+	}
+
+
+	
+	/*Enviamos formulario*/
+	$(document).ready(function(){
+		$.ajaxSetup({contentType: "application/json; charset=utf-8"});
+		$("#post").click(function(){
+			var prestamo =  { cantidad: $('#cantidad').val(), cantidadPago: $('#cantidadPago').val(), diaPago: $('#diaDePago').val(), 
+					fecha: $('#fechaLimite').val(), idCliente: $('#idCliente').val(), idEmpleado: $('#idEmpleado').val(), 
+					numeroPagos: $('#meses').val(), penalizacionDia: $('#penalizacion').val(), recargos: 0, 
+					tasaInteres: $('#tasaInteres').val() };
+			var prestamoJSON = JSON.stringify(prestamo);
+			console.log("Prestamo = "+prestamoJSON);
+			$.post("http://localhost:8080/prestamos", prestamoJSON, function(data, status){
+				$("#result").html(data.creada);
+			});
+		});
+	});
+</script>
+</body>
+</html>

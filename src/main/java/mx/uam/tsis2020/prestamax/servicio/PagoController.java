@@ -2,6 +2,7 @@ package mx.uam.tsis2020.prestamax.servicio;
 
 import java.util.Optional;
 
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import mx.uam.tsis2020.prestamax.negocio.modelo.Prestamo;
 @Slf4j
 public class PagoController {
 
+	
 	@Autowired
 	private PagoService pagoService;
 	

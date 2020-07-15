@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Busca Pr&eacute;stamo</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+</head>
+<body>
+	<!-- Encabezado -->
+	<header th:insert="fragments/menu :: menu-principal"></header>
+	<!-- Encabezado -->
+
+	<!-- Page content -->
+	<hr>
+	<div class="jumbotron">
+		<div class="container">
+			<h3>Encuentra el pr&eacute;stamo mediante el ID</h3>
+			Aseg&uacute;rate de colocar correctamente el ID
+			<form class="form-inline">
+				<input type="text" class="form-control mb-3"
+					id="buscaPrestamo" placeholder="Escriba una busqueda">&nbsp;
+				<button type="submit" class="btn btn-secondary mb-3">Buscar</button>
+			</form>
+		</div>
+	</div>
+	<!-- Page Content -->
+
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+
+</body>
+</html>
