@@ -48,5 +48,5 @@ public class Empleado {
 	@NotBlank
 	@ApiModelProperty(notes="Password del empleado", required=true)
 	private String password;
-
+	
 }

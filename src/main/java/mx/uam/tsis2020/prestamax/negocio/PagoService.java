@@ -3,10 +3,13 @@ package mx.uam.tsis2020.prestamax.negocio;
 import java.util.Iterator;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import mx.uam.tsis2020.prestamax.PrestamaxApplication;
 import mx.uam.tsis2020.prestamax.datos.ClienteRepository;
 import mx.uam.tsis2020.prestamax.datos.EmpleadoRepository;
 import mx.uam.tsis2020.prestamax.datos.PagoRepository;
@@ -24,7 +27,7 @@ import mx.uam.tsis2020.prestamax.negocio.modelo.Prestamo;
 @Service
 @Slf4j
 public class PagoService {
-
+	
 	@Autowired
 	private PrestamoRepository prestamoRepository;
 	

@@ -56,4 +56,5 @@ public class Cliente {
 	@NotBlank
 	@ApiModelProperty(notes="status del cliente", required=true)
 	private String status;
+	
 }

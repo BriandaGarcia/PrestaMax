@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import mx.uam.tsis2020.prestamax.PrestamaxApplication;
 import mx.uam.tsis2020.prestamax.negocio.ClienteService;
 import mx.uam.tsis2020.prestamax.negocio.PrestamoService;
 import mx.uam.tsis2020.prestamax.negocio.modelo.Cliente;
