@@ -30,6 +30,44 @@ public class MainController {
 	@Autowired
 	private ClienteService clienteService;
 	
+	/**Cambios hechos por hernan**/
+	@GetMapping("/")
+	public String index(){
+		log.info("Se invocó el método index()");
+		return "index";
+	}
+	
+	@GetMapping("/login")
+	public String login(){
+		log.info("Se invoco el login");
+		return "login";
+	}
+	/**Metodo que manda al administrador a la vista que le corresponde**/
+	@GetMapping("/administracion")
+	public String administracion(){
+		log.info("Se invoco el login");
+		return "administracion";
+	}
+	@GetMapping("/PaneldeControl")
+	public String panel() {
+		return "PaneldeControl";
+	}
+	/**Metodo que manda al empleado a su pagina correspondiente**/
+	@GetMapping("/empleado")
+	public String empleado(){
+		log.info("Se invoco el login");
+		return "poner el nombre de la pagina del empleado aqui";
+	}
+	@GetMapping("/agregarEmpleado")
+	public String createEmployee() {
+		return "agregarEmpleado";
+	}
+	@GetMapping("/VerEmpleados")
+	public String verEmpleados() {
+		return "Empleados";
+	}
+	/**hasta aqui acaban los cambios hechos por hernan**/
+	
 	@GetMapping("/prestamo")
 	public String main() {
 		return "prestamos/prestamoMenu";
@@ -115,11 +153,7 @@ public class MainController {
 		return "redirect:/cliente/list";		
 	}
 	
-	@RequestMapping("/empleado")
-	@ResponseBody
-	public String empleado(){
-		return "Pagina empleados";
-	}
+	
 	
 	@RequestMapping("/empleado/id")
 	@ResponseBody
