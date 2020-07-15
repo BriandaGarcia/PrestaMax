@@ -1,0 +1,146 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>PrendaMAX.</title>
+    <link rel="shortcut icon" href="https://i.pinimg.com/originals/a4/6d/2a/a46d2aa134e26b7dbdb149f013cd0547.png">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<style type="text/css" media="screen">
+		.login{
+			background-color:none;
+            margin-top:50px;
+			height:500px;
+			width:600px;
+			border-radius: 15px;
+            
+		}
+		body{
+			background-image:url("https://static-2.gumroad.com/res/gumroad/348740320151/asset_previews/a20bdb10d80cc551031a96c601fcf8f8/original/money_pile_dribble_1.gif");
+            background-position:top;
+            background-size:100% 100%;
+            background-repeat:no-repeat;
+		}
+
+	</style>
+    
+</head>
+<body>
+    <center>
+	<div class="login" id="principal">
+		<div class="card-header" >
+            <center>
+                <h3><img src="https://i.pinimg.com/originals/a4/6d/2a/a46d2aa134e26b7dbdb149f013cd0547.png" height="60px">Sistema de Prestamos.</h3>
+            </center>
+		</div>
+		<br>
+        <div class="card-body">
+            <div class="row" style="display: flex;">
+                <div style="margin-left:15px;">
+                    <img src="https://cdn.icon-icons.com/icons2/1154/PNG/512/1486564400-account_81513.png" width="150px" height="150px">
+                    <br>
+                   
+                </div>
+                <div style="margin-left:45px;">
+                    
+                    <div class="row">
+                        <input class="form-control" id="name" placeholder="NOMBRE"  required="Campo requerido">
+                    </div><br>
+                    <div class="row">
+                        <input class="form-control" id="APaterno" placeholder="APELLIDO PATERNO"  required="Campo requerido">
+                    </div><br>
+                    <div class="row">
+                       <input class="form-control" id="AMaterno" placeholder="APELLIDO MATERNO"  required="Campo requerido">
+                    </div><br>
+                    <div class="row">
+                        <input class="form-control" id="Password" placeholder="CONTRASEÑA" type="password" required="Campo requerido">
+                    </div>
+                    <center>
+                        <button class="btn btn-success"style="margin-top:20px;" id="login" type="submit">Iniciar Sesión.</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+	</div>
+    <div class="text-center" style="margin-top:-300px;" id="load">
+        
+    </div>
+    </center>
+    
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script  type="text/javascript" >
+   
+    
+    
+    
+  
+$(document).ready(function(){
+    $.ajaxSetup({contentType:"application/json; charset=utf-8"});
+    $("#login").click(function(){
+		///leemos el valor de los input del formulario
+        var nombre=document.getElementById("name").value;
+        var ap=document.getElementById("APaterno").value;
+        var am=document.getElementById("AMaterno").value;
+        var pass=document.getElementById("Password").value;
+        ///aqui validamos que los campos no esten vacios
+        if(nombre==="" || ap==="" || am==="" || pass===""){
+            alert("Debes de llenar todos los campos");
+        
+        }else{
+            //aqui desenfocamos la pantalla principal
+            $("#principal").attr("style","filter: blur(8px);");
+            //aqui agregamos la animacion de carga en lo que se valida la informacion
+            $("#load").append($("<div id='show' class='spinner-border text-primary'style='width: 5rem; height: 5rem;filter:none;' role='status'>"+"<span class='sr-only'>"+"Loading..."+"</span>"));
+            $("#load").append($("</div>"));
+            //Hacemos la peticion al servidor
+            $.get("http://localhost:8080/empleados",function(data, status){
+            	//Esta variable es para saber si encontro o no el usuario
+    			var notFound=false;
+    			var i;
+    			//obtenemos el tamaño del arreglo que se nos fue devuelto
+    			var size=data.length;
+    			for(i=0;i<size;i++){
+    				//obtenemos los valores por usuario de los siguientes campos
+    				var name=data[i].nombre;
+    				var APaterno=data[i].apellidoPaterno;
+    				var AMaterno=data[i].apellidoMaterno;
+    				var contraseña=data[i].password;
+    				var user1=name + APaterno +AMaterno;
+    				var user2=nombre+ap+am;
+    				var cargo=data[i].cargo;
+    				//comparamos valores
+    				//si son iguales
+    				if(user1===user2 && (pass==contraseña)){
+    					//se cambia la pantalla de carga a color verde indicando exito
+    					$("#show").attr("class","spinner-border text-success");
+    					//cambiamos el valor de la varianle para decir que lo encontramos 
+    					notFound=true;
+    					//dependiendo del cargo se le dirige a su pagina
+    		            if(cargo="administrador"){
+    		            	$(location).attr("href","/administracion");
+    		            }else{
+    		            	$(location).attr("href","/empleado");
+    		            }
+    				}
+    			}
+    			//en caso de no haber encontrado el usuario
+    			if(!notFound){
+    				//se enfoca la pantall
+    				$("#principal").attr("style","filter: blur(0px);");
+    				//se quita la animacion de cargando
+    		        document.getElementById("load").innerHTML="";
+    				//se le notifica al usuario que no se pudo iniciar sesion
+    		        alert("No se pudeo iniciar sesion,Verifica los datos");
+    			}
+            });
+           
+        }
+    });
+    
+});
+
+
+</script>

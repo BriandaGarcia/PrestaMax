@@ -22,11 +22,33 @@ public class MainController {
 		return "index";
 	}
 	
-	@RequestMapping("/prestamos")
-	@ResponseBody
-	public String prestamos(){
-		return "Pagina prestamos";
+	@GetMapping("/login")
+	public String login(){
+		log.info("Se invoco el login");
+		return "login";
 	}
+	/**Metodo que manda al administrador a la vista que le corresponde**/
+	@GetMapping("/administracion")
+	public String administracion(){
+		log.info("Se invoco el login");
+		return "administracion";
+	}
+	/**Metodo que manda al empleado a su pagina correspondiente**/
+	@GetMapping("/empleado")
+	public String empleado(){
+		log.info("Se invoco el login");
+		return "poner el nombre de la pagina del empleado aqui";
+	}
+	@GetMapping("/agregarEmpleado")
+	public String createEmployee() {
+		return "agregarEmpleado";
+	}
+	@GetMapping("/VerEmpleados")
+	public String verEmpleados() {
+		return "Empleados";
+	}
+	
+	
 	
 	@RequestMapping("/prestamos/id")
 	@ResponseBody
@@ -58,11 +80,7 @@ public class MainController {
 		return "Pagina cliente";
 	}
 	
-	@RequestMapping("/empleado")
-	@ResponseBody
-	public String empleado(){
-		return "Pagina empleados";
-	}
+	
 	
 	@RequestMapping("/empleado/id")
 	@ResponseBody
