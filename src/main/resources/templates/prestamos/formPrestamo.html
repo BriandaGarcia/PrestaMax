@@ -9,11 +9,31 @@
 	crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 </script>
-	
+<style>
+ header{
+            background-color:black;
+        }
+        p{
+            color:white;
+        }
+
+</style>
 </head>
 <body>
 	<!-- Encabezado -->
-	<header th:insert="fragments/menu :: menu-principal"></header>
+	<header > <div class="row">
+            <div>
+                <img src="https://i.pinimg.com/originals/a3/a8/8c/a3a88cc9e02424681ea020a3182dfbaa.png" style="width:80px;height: 80px;margin-left: 20px;">
+            </div>
+            <div class="col-sm">
+               <h4 style="margin-top: 9px;color:white;">Tu servicio de<br> Prestamos Favorito!!!</h4>
+            </div>
+            <div>
+                <a class="btn btn-danger" href="/login" style="margin-right:25px;margin-top:24px;">
+			     Cerrar Sesion
+		      </a>
+            </div>
+        </div></header>
 	<!-- Encabezado -->
 
 
