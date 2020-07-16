@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>panel de Control</title>
+<link rel="shortcut icon" href="https://i.pinimg.com/originals/a4/6d/2a/a46d2aa134e26b7dbdb149f013cd0547.png">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<style>
+	header{
+		background-color:black;
+	}
+	
+</style>
+</head>
+<body>
+	<header>
+        <div class="row">
+            <div>
+                <img src="https://i.pinimg.com/originals/a3/a8/8c/a3a88cc9e02424681ea020a3182dfbaa.png" style="width:80px;height: 80px;margin-left: 20px;">
+            </div>
+            <div class="col-sm">
+               <h4 style="margin-top: 9px;color:white;">Tu servicio de<br> Prestamos Favorito!!!</h4>
+            </div>
+            <div>
+                <a class="btn btn-danger" href="/login" style="margin-right:25px;margin-top:24px;">
+			     Cerrar Sesion
+		      </a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="card  ">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Empleado</strong>
+			</h4>
+			<br>
+	</div>
+    
+    <div class="container" style="display:flex;justify-content:space-around;margin-top:60px;">
+    	<div class="card-body"style="border:solid 0.5px;border-radius:25px;width:40px;margin-right:10px;">
+    		<center>
+    			<img width="100px" height="100px"src="https://cdn.icon-icons.com/icons2/2355/PNG/512/pay_cash_payment_money_dollar_bill_icon_143267.png">
+	    		<br><br>
+    			<h3>Prestamos</h3><br>
+    			<a class="btn btn-primary" href="/prestamo">Ir alla</a>
+    		</center>
+    	</div>
+    	<div class="card-body"style="border:solid 0.5px;border-radius:25px;width:40px;margin-right:10px;">
+    		<center>
+    			<img width="100px" height="100px"src="https://cdn.icon-icons.com/icons2/546/PNG/512/1455554996_users-11_icon-icons.com_53275.png">
+	    		<br><br>
+    			<h3>Clientes</h3><br>
+    			<a class="btn btn-primary" href="/cliente">Ir alla</a>
+    		</center>
+    	</div>
+    	<div class="card-body"style="border:solid 0.5px;border-radius:25px;width:40px;margin-right:10px;">
+    		<center>
+    			<img width="100px" height="100px"src="https://cdn.icon-icons.com/icons2/839/PNG/512/pay_perclick_icon-icons.com_66877.png">
+	    		<br><br>
+	    		<h3>Pagos</h3><br>
+	    		<a class="btn btn-primary" href="/pago">Ir alla</a>
+    		</center>
+    	</div>
+    </div>
+    
+    <!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+</body>
+</html>
