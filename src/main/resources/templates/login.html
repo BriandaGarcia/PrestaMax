@@ -68,6 +68,8 @@
     </div>
     </center>
     
+
+
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -119,10 +121,10 @@ $(document).ready(function(){
     					//cambiamos el valor de la varianle para decir que lo encontramos 
     					notFound=true;
     					//dependiendo del cargo se le dirige a su pagina
-    		            if(cargo="administrador"){
+    		            if(cargo=="administrador"){
     		            	$(location).attr("href","/PaneldeControl");
     		            }else{
-    		            	$(location).attr("href","/empleado");
+    		            	$(location).attr("href","/PanelControlEmpleado");
     		            }
     				}
     			}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <nav th:fragment="menu-principal" class="navbar navbar-expand-md navbar-light  bg-light">
-	<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/logo.png}"
+	<a class="navbar-brand" th:href="@{/PanelControlEmpleado}"> <img src="https://i.pinimg.com/originals/a3/a8/8c/a3a88cc9e02424681ea020a3182dfbaa.png"
 		width="30" height="30" class="d-inline-block align-top" alt="logo">
 		PrestaMax
 	</a>
@@ -14,11 +14,11 @@
 
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item"><a class="nav-link active" th:href="@{/prestamo}">Prestamos</a>
+			<li class="nav-item"><a class="nav-link" th:href="@{/prestamo}">Prestamos</a>
 			</li>
 			<li class="nav-item"><a class="nav-link" th:href="@{/cliente}">Clientes</a></li>
 			<li class="nav-item"><a class="nav-link" th:href="@{/pago}">Pagos</a></li>
 		</ul>
-		<a class="btn btn-secondary" href="#">Cerrar sesi&oacute;n</a>
+		<a class="btn btn-danger" href="/login" style="margin-right:25px;margin-top:24px;">Cerrar sesi&oacute;n</a>
 	</div>
 </nav>

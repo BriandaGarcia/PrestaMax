@@ -56,6 +56,12 @@ public class MainController {
 	public String panel() {
 		return "PaneldeControl";
 	}
+	
+	@GetMapping("/PanelControlEmpleado")
+	public String panelEmpleado() {
+		return "PanelControlEmpleado";
+	}
+	
 	/**Metodo que manda al empleado a su pagina correspondiente**/
 	@GetMapping("/empleado")
 	public String empleado(){
