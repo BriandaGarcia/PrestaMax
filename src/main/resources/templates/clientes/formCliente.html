@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Agregar nuevo cliente</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -22,7 +22,7 @@
 
 		<div class="card">
 			<h4 class="card-header text-center text-white bg-secondary">
-				<strong>Datos de la oferta de trabajo</strong>
+				<strong>Datos del cliente</strong>
 			</h4>
 			<div class="card-body">
 			<strong id="msg" style="color:red;"></strong>
@@ -136,7 +136,7 @@
 			console.log("Cliente = "+clienteJSON);
 			$.post("http://localhost:8080/clientes", clienteJSON, function(data, status){
 				if(status == "success"){ //se reedirige al menu si la creacion del cliente fue exitosa
-					$("#msg").text("Cliente registrado exitosamente!");
+					alert("Cliente registrado exitosamente!");
 					window.location="http://localhost:8080/cliente";
 				}
 			}).fail(function (){//si ocurre un problema, mandamos una alerta

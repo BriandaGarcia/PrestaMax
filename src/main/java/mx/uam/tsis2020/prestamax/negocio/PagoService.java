@@ -3,13 +3,11 @@ package mx.uam.tsis2020.prestamax.negocio;
 import java.util.Iterator;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import mx.uam.tsis2020.prestamax.PrestamaxApplication;
 import mx.uam.tsis2020.prestamax.datos.ClienteRepository;
 import mx.uam.tsis2020.prestamax.datos.EmpleadoRepository;
 import mx.uam.tsis2020.prestamax.datos.PagoRepository;
@@ -208,7 +206,7 @@ public class PagoService {
 	 * @param cantidadPagoPrestamo Cantidad que fue asignada en el prestamo
 	 * @return True si las cantidades coinciden, false si no
 	 */
-	public boolean validaCantidad(Double cantidadPago, Double cantidadPagoPrestamo) {
+	public boolean validaCantidad(Integer cantidadPago, Integer cantidadPagoPrestamo) {
 		log.info("validaCantidad "+(cantidadPago.equals(cantidadPagoPrestamo)));
 		if(cantidadPago.equals(cantidadPagoPrestamo)) {
 			return true;
@@ -227,7 +225,7 @@ public class PagoService {
 		Optional<Cliente> clienteOpt = clienteRepository.findById(prestamo.getIdCliente());
 		Cliente cliente = clienteOpt.get();
 		Integer dia = pago.getDia();
-		Double recargos = 0.0;
+		Integer recargos = 0;
 		
 		log.info("dia equals 1 "+dia.equals(1));
 		
@@ -241,7 +239,7 @@ public class PagoService {
 			clienteRepository.save(cliente);
 			
 			Integer diasRetraso = dia - 1;
-			recargos = (double) (diasRetraso * prestamo.getPenalizacionDia());
+			recargos = (diasRetraso * prestamo.getPenalizacionDia());
 			Integer recargosTotal = (int) (recargos + prestamo.getRecargos());
 			prestamo.setRecargos(recargosTotal);
 			
@@ -265,7 +263,7 @@ public class PagoService {
 			if(pagosRestantes == 0) {
 				prestamo.setCantidadPago(recargos);
 			} else {
-				Double nuevoPago = prestamo.getCantidadPago() + (recargos/pagosRestantes);
+				Integer nuevoPago = prestamo.getCantidadPago() + (recargos/pagosRestantes);
 				prestamo.setCantidadPago(nuevoPago);
 			}
 			

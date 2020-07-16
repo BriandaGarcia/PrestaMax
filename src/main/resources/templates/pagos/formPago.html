@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Agregar nuevo pago</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+	
+</head>
+<body>
+	<!-- Encabezado -->
+	<header th:insert="fragments/menu :: menu-principal"></header>
+	<!-- Encabezado -->
+
+
+	<!-- Page Content -->
+	<hr>
+	<div class="container">
+
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Datos del Pago</strong>
+			</h4>
+			<div class="card-body">
+			<strong id="msg" style="color:red;" bgcolor="green"></strong>
+			<hr>
+				<form>
+					<div class="row">
+						<div class="col-md-5">
+							<label for="idPrestamo">ID Prestamo</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text"> 
+										<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-key-fill"
+											fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd"
+											d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+										</svg>
+									</span>
+								</div>
+								<input type="text" class="form-control" id="idPrestamo"
+									name="idPrestamo" placeholder="ID del prestamo del que se requiere un pago" required="required">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<label for="idEmpleado">ID Empleado</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text"> 
+										<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-key-fill"
+											fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd"
+											d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+										</svg>
+									</span>
+								</div>
+								<input type="text"
+									class="form-control" id="idEmpleado" name="idEmpleado"
+									placeholder="ID del empleado que realizar el cobro" required="required">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="fecha">Fecha creaci&oacute;n de
+									Pago</label> <input type="date" class="form-control"
+									name="fechaCreacion" id="fechaCreacion" placeholder="Fecha de hoy"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+						<label for="cantidad">Cantidad del Pago</label>
+							<div class="input-group-prepend">
+								<span class="input-group-text">$</span>
+								 <input type="text" class="form-control" name="cantidad"
+									id="cantidad" placeholder="Cantidad del pago" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group"></div>
+						</div>
+					</div>
+					<button type="submit" id="post" class="btn btn-primary">Guardar</button>
+					<a class="btn btn-secondary" th:href="@{/pago}">Regresar</a>			
+				</form>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<!-- Page Content -->
+<p id="result"></p>
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+
+<script>
+/*Campos que no se pueden cambiar su valor*/
+$('#fechaCreacion').prop('disabled', true);
+
+/*Escribimos en el formulario la fecha actual y la fecha del dia de pago de cada mes*/
+window.onload = function(){
+	  var fecha = new Date(); //Fecha actual
+	  var mes = fecha.getMonth()+1; //obteniendo mes
+	  var dia = fecha.getDate(); //obteniendo dia
+	  var ano = fecha.getFullYear(); //obteniendo año
+	  if(dia<10)
+	    dia='0'+dia; //agrega cero si el menor de 10
+	  if(mes<10)
+	    mes='0'+mes //agrega cero si el menor de 10
+	  document.getElementById('fechaCreacion').value=ano+"-"+mes+"-"+dia;
+	}
+	
+	/*Enviamos formulario*/
+	$(document).ready(function(){
+		$.ajaxSetup({contentType: "application/json; charset=utf-8"});
+        var fecha = new Date(); //Fecha actual
+	  	var m = fecha.getMonth()+1; //obteniendo mes
+	  	var d = fecha.getDate(); //obteniendo dia
+	 	var a = fecha.getFullYear(); //obteniendo año
+        
+		$("#post").click(function(){
+			var pago =  { cantidad: $('#cantidad').val(), dia: d, mes: m, ano: a, idPrestamo: $('#idPrestamo').val(), idEmpleado: $('#idEmpleado').val(), 
+					penalizacion: 0};
+			var pagoJSON = JSON.stringify(pago);
+			console.log("Pago = "+pagoJSON);
+			$.post("http://localhost:8080/pagos", pagoJSON, function(data, status){
+				if(status == "success"){
+					alert("Realizacion de pago exitoso");
+					window.location="http://localhost:8080/pago";
+				}
+			}).fail(function(){
+				alert("Ocurrio un problema al registrar el pago. \nPor favor, verifique sus datos.");
+			});
+		});
+	});
+</script>
+</body>
+</html>

@@ -42,15 +42,15 @@ public class Pago {
 	
 	@NotNull
 	@ApiModelProperty(notes="año en que se está realizando el pago", required=true)
-	private Integer año;
+	private Integer ano;
 	
 	@NotNull
 	@ApiModelProperty(notes="cantidad del pago", required=true)
-	private Double cantidad;
+	private Integer cantidad;
 	
 	@NotNull
 	@ApiModelProperty(notes="penalizacion del pago tardio", required=true)
-	private Double penalizacion;
+	private Integer penalizacion;
 
 
 }

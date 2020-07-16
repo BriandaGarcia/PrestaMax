@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Buscar cliente</title>
+<title>Buscar pago</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -19,52 +19,47 @@
 	<div class="container">
 		<div class="card">
 			<h4 class="card-header text-center text-white bg-secondary">
-				<strong>Buscar Cliente:</strong>
+				<strong>Buscar Pago:</strong>
 			</h4>
 			<div class="card-body">
 			<hr>
 				<div class="col-md-6">
-					<input type="text" class="form-control" id="idCliente"
-						name="idCliente" placeholder="Escriba el ID del cliente"
+					<input type="text" class="form-control" id="idPago"
+						name="idPago" placeholder="Escriba el ID del pago"
 						required="required"> <br> <a class="btn btn-primary"
 						role="button" title="Buscar" id="get">Buscar</a>
-						<a class="btn btn-secondary" th:href="@{/cliente}"
+						<a class="btn btn-secondary" th:href="@{/pago}"
 						role="button" title="Regresar">Regresar</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<hr>
-	<div class="container" id="detalleCliente" style="display: none">
+	<div class="container" id="detallePago" style="display: none">
 		<div class="card">
 			<h4 class="card-header text-center text-white bg-secondary">
-				<strong>Detalles del Cliente:</strong>
+				<strong>Detalles del Pago:</strong>
 			</h4>
 			<div class="card-body">
 				<hr>
 				<h5 class="card-title">
-					<strong>ID Cliente: </strong> <span id="id"></span>
+					<strong>ID Pago: </strong> <span id="id"></span>
 				</h5>
 				<h6 class="card-title">
-					<strong>Nombre: </strong> <span id="nombre"></span>
+					<strong>ID Prestamo: </strong> <span id="idPrestamo"></span>
 				</h6>
 				<h6 class="card-title">
-					<strong>Salario: </strong><span id="salario"></span>
+					<strong>ID Empleado: </strong><span id="idEmpleado"></span>
 				</h6>
 				<h6 class="card-title">
-					<strong>INE: </strong> <span id="ine"></span> <strong>Telefono:
-					</strong> <span id="telefono"></span> <strong>Direcci&oacute;n: </strong> <span
-						id="direccion"></span>
+					<strong>Fecha Creacion: </strong> <span id="fecha"></span>
 				</h6>
-				<div class="card bg-light mb-3">
-					<div class="card-body">
-						<h5 class="card-title">Status del cliente</h5>
-						<p class="card-text">
-							El status del cliente es: <strong id="status"></strong> para un
-							nuevo pr&eacute;stamo
-						</p>
-					</div>
-				</div>
+				<h6 class="card-title">
+					<strong>Cantidad Pago: </strong><span id="cantidad"></span>
+				</h6>
+				<h6 class="card-title">
+					<strong>Penalizacion: </strong> <span id="penalizacion"></span>
+				</h6>
 			</div>
 		</div>
 	</div>
@@ -78,24 +73,23 @@
 	/*Obtenemos datos del  cliente mediante su ID*/
 		$(document).ready(function() {
 			$("#get").click(function() {
-				var url = "http://localhost:8080/clientes/" + $("#idCliente").val();
+				var url = "http://localhost:8080/pagos/" + $("#idPago").val();
 				console.log(url);
 				$.get(url, function(data, status) {
 					console.log("Status = " + status);
 					console.log("Data = " + data);
 			 		if(status == "success"){ //si fue exitoso el resultado, mostramos los detalles con una animacion
-						$("#detalleCliente").first().show("slow");
+						$("#detallePago").first().show("slow");
 					}
 			 		/*mapeamos los dato obtenidos a la vista*/
-					$("#id").text(data.idCliente);
-					$("#nombre").text(data.nombre + ' ' + data.apellidoPaterno + ' ' + data.apellidoMaterno);
-					$("#salario").text(data.salario);
-					$("#ine").text(data.ine);
-					$("#telefono").text(' - ' + data.telefono);
-					$("#direccion").text(' ' + data.direccion);
-					$("#status").text(' ' + data.status);
+					$("#id").text(data.idPago);
+					$("#idPrestamo").text(data.idPrestamo);
+					$("#idEmpleado").text(data.idEmpleado);
+					$("#fecha").text(data.dia + '/' + data.mes + '/' + data.ano);
+					$("#cantidad").text(data.cantidad);
+					$("#penalizacion").text(data.penalizacion);
 				}).fail(function(){ //si algo falla al recuperar los datos, mostramos una alerta
-					alert("No se encontro el cliente a buscar");	
+					alert("No se encontro el pago a buscar");	
 				});
 			});
 		});

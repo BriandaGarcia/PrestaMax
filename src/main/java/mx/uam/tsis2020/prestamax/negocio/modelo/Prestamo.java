@@ -55,7 +55,7 @@ public class Prestamo {
 	
 	@NotNull
 	@ApiModelProperty(notes="cantidad de cada pago del prestamo", required=true)
-	private Double cantidadPago;	
+	private Integer cantidadPago;	
 	
 	@NotNull
 	@ApiModelProperty(notes="Penalizacion al dia por pago tardio", required=true)

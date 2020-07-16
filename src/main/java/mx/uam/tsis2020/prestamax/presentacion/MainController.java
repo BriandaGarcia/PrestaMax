@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.uam.tsis2020.prestamax.negocio.ClienteService;
+import mx.uam.tsis2020.prestamax.negocio.PagoService;
 import mx.uam.tsis2020.prestamax.negocio.PrestamoService;
 import mx.uam.tsis2020.prestamax.negocio.modelo.Cliente;
 import mx.uam.tsis2020.prestamax.negocio.modelo.Prestamo;;
@@ -29,6 +30,9 @@ public class MainController {
 	
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private PagoService pagoService;
 	
 	@GetMapping("/prestamo")
 	public String main() {
@@ -71,16 +75,25 @@ public class MainController {
 		return "prestamos/buscaPrestamo";
 	}
 	
-	@RequestMapping("/pagos")
-	@ResponseBody
-	public String pagos(){
-		return "Pagina pagos";
+	@GetMapping("/pago")
+	public String pago() {
+		return "pagos/pagoMenu";
+	}//fin pago
+	
+	@RequestMapping("/pago/crear")
+	public String crearPago() {
+		return "pagos/formPago";
+	}//fin crearPago
+	
+	@GetMapping("/pago/listPagos")
+	public String listPagos(Model model) {
+		model.addAttribute("pagos", pagoService.retrieveAll());
+		return "pagos/listPagos";
 	}
 	
-	@RequestMapping("/pagos/id")
-	@ResponseBody
-	public String pagosId(){
-		return "Pagina pago";
+	@GetMapping("/pago/buscar")
+	public String buscarPago() {
+		return "pagos/buscaPago";
 	}
 	
 	@RequestMapping("/cliente")

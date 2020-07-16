@@ -390,7 +390,7 @@ public class PrestamoService {
 		Double prestamo = nuevoPrestamo.getCantidad();
 		Double tasaInteres = (nuevoPrestamo.getTasaInteres())/100;
 		Integer numeroPagos = nuevoPrestamo.getNumeroPagos();
-		Double pago = (prestamo + (prestamo*tasaInteres))/numeroPagos;
+		Integer pago = (int) ((prestamo + (prestamo*tasaInteres))/numeroPagos);
 		
 		log.info("pago "+pago+" cantidadPago "+nuevoPrestamo.getCantidadPago());
 		

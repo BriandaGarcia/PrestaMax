@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Pagos</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	rel="stylesheet">
+
+</head>
+<body>
+	<!-- Encabezado -->
+	<header th:insert="fragments/menu :: menu-principal"></header>
+	<!-- Encabezado -->
+
+	<!-- Page Content -->
+	<hr>
+	<div class="container">
+
+		<div class="card">
+			<h4 class="card-header text-center text-white bg-secondary">
+				<strong>Lista de Pagos</strong>
+			</h4>
+			<div class="card-body">
+
+				<a class="btn btn-secondary" th:href="@{/pago/crear}"
+					title="Crear nuevo pago" role="button"><i
+					class="fas fa-file" aria-hidden="true"></i>Nuevo</a>
+					<a class="btn btn-info" th:href="@{/pago}">Regresar</a>
+				<hr>
+				<div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+				<div th:if="${error != null}" class='alert alert-danger' th:text="${error}" role='alert'></div>            
+				<table class="table table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">ID Pago</th>
+							<th scope="col">ID Prestamo</th>
+							<th scope="col">ID Empleado</th>
+							<th scope="col">Fecha Pago</th>
+							<th scope="col">Cantidad</th>
+							<th scope="col">Penalizaci&oacute;n</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="pago: ${pagos}">
+							<td th:text="${pago.idPago}"></td>
+							<td th:text="${pago.idPrestamo}"></td>
+							<td th:text="${pago.idEmpleado}"></td>
+							<td th:text="${pago.dia + '/' + pago.mes + '/' + pago.ano}"></td>
+							<td th:text="${pago.cantidad}"></td>
+							<td th:text="${pago.penalizacion}"></td>
+							<td>
+							 
+							<a th:href="@{/pago/eliminar/} + ${pago.idPago}" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button"
+								title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Page Content -->
+
+
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: pie-pagina" class="footer"></footer>
+	<!-- Footer -->
+
+</body>
+</html>
