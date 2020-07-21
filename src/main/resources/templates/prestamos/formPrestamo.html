@@ -298,7 +298,8 @@ window.onload = function(){
 		var tasaInteres = $('#tasaInteres').val() / 100;
 		var meses = $('#meses').val();
 		var total = (Number(prestamo) + Number((prestamo* tasaInteres))) / meses;
-		$('#cantidadPago').val(total);	
+		var totalRound = Math.round(total);
+		$('#cantidadPago').val(totalRound);	
 			
 		/*Validacion de prestamo para un suelo entre 5 mil y 15 mil*/
 		if($("#sueldo").val() >= 4000 && $("#sueldo").val() <= 5000) {
